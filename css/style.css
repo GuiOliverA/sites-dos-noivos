@@ -1,0 +1,595 @@
+:root {
+    --navy: #1B2A4A;
+    --deep-blue: #243B5E;
+    --steel-blue: #4A6FA5;
+    --white: #FFFFFF;
+    --mist: #F0F2F5;
+    --silver: #C8D0DC;
+    --blue-gray: #8FA3BA;
+    --gold: #C9A84C;
+    --shadow: 0 14px 32px rgba(13, 27, 53, 0.12);
+    --radius: 16px;
+    --header-height: 72px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Manrope", sans-serif;
+    color: var(--navy);
+    background:
+        radial-gradient(circle at 10% 10%, rgba(201, 168, 76, 0.08), transparent 40%),
+        radial-gradient(circle at 90% 0%, rgba(74, 111, 165, 0.2), transparent 42%),
+        linear-gradient(180deg, #f7f9fc 0%, #edf1f8 100%);
+    line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+.section {
+    padding: 4.8rem 0;
+}
+
+.section-heading {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    font-size: 0.72rem;
+    color: var(--steel-blue);
+    margin-bottom: 0.4rem;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Cormorant Garamond", serif;
+    line-height: 1.05;
+}
+
+h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--deep-blue);
+}
+
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(27, 42, 74, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar {
+    min-height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.brand {
+    color: var(--white);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+}
+
+.nav-links {
+    list-style: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: rgba(36, 59, 94, 0.98);
+    padding: 1.2rem 1.6rem;
+    display: grid;
+    gap: 1rem;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 260ms ease, opacity 220ms ease;
+}
+
+.nav-links a {
+    color: var(--mist);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+}
+
+.nav-open .nav-links {
+    transform: scaleY(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.menu-toggle {
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 20px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+}
+
+.hero {
+    min-height: 100svh;
+    display: grid;
+    align-items: center;
+    padding: calc(var(--header-height) + 2rem) 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(128deg, rgba(27, 42, 74, 0.92), rgba(36, 59, 94, 0.82)),
+        radial-gradient(circle at 30% 10%, rgba(201, 168, 76, 0.45), transparent 48%);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: auto -20% -30% auto;
+    width: 300px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.44), rgba(201, 168, 76, 0));
+    filter: blur(12px);
+}
+
+.hero-content {
+    position: relative;
+    color: var(--white);
+    text-align: center;
+}
+
+.hero-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 0.74rem;
+    margin-bottom: 0.6rem;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 13vw, 6.4rem);
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+}
+
+.hero h1 span {
+    color: var(--gold);
+}
+
+.hero-date {
+    font-size: 1.1rem;
+    margin-bottom: 1.8rem;
+}
+
+.countdown {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.countdown-item {
+    padding: 1rem 0.6rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.countdown-item span {
+    display: block;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--gold);
+}
+
+.countdown-item small {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+}
+
+.section-day {
+    background: linear-gradient(135deg, #F5F3EF 0%, #EDE9E3 100%);
+}
+
+.day-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.day-grid .info-card {
+    flex: 0 1 720px;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.info-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(200, 208, 220, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(13, 27, 53, 0.16);
+}
+
+.info-card-image {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.info-card-content {
+    padding: 1.8rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.info-card h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.85rem;
+    color: var(--deep-blue);
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+}
+
+.info-card .time {
+    color: var(--steel-blue);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+}
+
+.info-card .location {
+    color: var(--navy);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+    flex-grow: 1;
+}
+
+.maps-btn {
+    display: inline-block;
+    padding: 0.85rem 1.6rem;
+    border: 2px solid var(--steel-blue);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--steel-blue);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.maps-btn:hover,
+.maps-btn:focus-visible {
+    background: var(--steel-blue);
+    color: var(--white);
+    border-color: var(--steel-blue);
+}
+
+.party-grid,
+.gallery-grid,
+.gifts-actions {
+    display: grid;
+    gap: 1rem;
+}
+
+.gallery-item {
+    border: 0;
+    padding: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    position: relative;
+    background: var(--white);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    transition: transform 0.45s ease;
+}
+
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
+    transform: scale(1.06);
+}
+
+.person-card {
+    padding: 1rem;
+    text-align: center;
+    background: var(--white);
+    border: 1px solid var(--silver);
+}
+
+.person-card img {
+    width: 92px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: 0 auto 0.85rem;
+    border: 2px solid var(--gold);
+    object-fit: cover;
+}
+
+.person-card h3 {
+    font-size: 1.55rem;
+}
+
+.person-card p {
+    color: var(--steel-blue);
+    font-size: 0.94rem;
+}
+
+.rsvp-form {
+    max-width: 620px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 1.6rem;
+    display: grid;
+    gap: 0.6rem;
+    border: 1px solid var(--silver);
+}
+
+.rsvp-form label {
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: var(--deep-blue);
+}
+
+.rsvp-form input,
+.rsvp-form select,
+.rsvp-form textarea {
+    border: 1px solid var(--silver);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    font: inherit;
+    color: var(--navy);
+    background: var(--mist);
+}
+
+.rsvp-form button {
+    margin-top: 0.4rem;
+    border: 0;
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    background: linear-gradient(90deg, var(--deep-blue), var(--steel-blue));
+    color: var(--white);
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.rsvp-form button:hover,
+.rsvp-form button:focus-visible {
+    filter: brightness(1.07);
+}
+
+.rsvp-status {
+    min-height: 1.45rem;
+    font-size: 0.92rem;
+}
+
+.rsvp-status.success {
+    color: #1f6b38;
+}
+
+.rsvp-status.error {
+    color: #a32d2d;
+}
+
+.gifts-actions {
+    max-width: 840px;
+    margin: 0 auto;
+}
+
+.gift-btn {
+    background: var(--white);
+    color: var(--deep-blue);
+    border: 1px solid var(--silver);
+    min-height: 56px;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.gift-btn:hover,
+.gift-btn:focus-visible {
+    border-color: var(--gold);
+    color: var(--navy);
+}
+
+.site-footer {
+    background: linear-gradient(130deg, var(--navy), var(--deep-blue));
+    color: var(--mist);
+    text-align: center;
+    padding: 2.6rem 0 3rem;
+}
+
+.special-phrase {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1.35rem, 4vw, 2rem);
+    color: #f7ebcb;
+    margin-bottom: 0.7rem;
+}
+
+.contact {
+    color: var(--silver);
+    font-size: 0.92rem;
+}
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 15, 25, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1rem;
+    z-index: 1100;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox img {
+    max-width: min(900px, 94vw);
+    max-height: 78vh;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.lightbox p {
+    color: var(--white);
+    font-size: 0.95rem;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    background: transparent;
+    color: var(--white);
+    border: 0;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 500ms ease, transform 500ms ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (min-width: 700px) {
+    .countdown {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .party-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .gifts-actions {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 960px) {
+    .section {
+        padding: 6rem 0;
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    .nav-links {
+        position: static;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        background: transparent;
+        display: flex;
+        padding: 0;
+        gap: 1.3rem;
+    }
+
+    .nav-links a {
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .gallery-item:nth-child(1) {
+        grid-column: span 2;
+    }
+
+    .gallery-item:nth-child(4) {
+        grid-column: span 2;
+    }
+
+    .hero-content h1 .ampersand {
+        color: #C9A84C;
+        /* dourado */
+        font-style: italic;
+    }
+
+
+}

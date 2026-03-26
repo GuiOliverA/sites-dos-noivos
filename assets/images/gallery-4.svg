@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Sorriso dos noivos">
+  <defs>
+    <linearGradient id="bg4" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#243B5E"/>
+      <stop offset="100%" stop-color="#1B2A4A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg4)"/>
+  <circle cx="280" cy="190" r="140" fill="#C9A84C" opacity="0.34"/>
+  <circle cx="940" cy="600" r="180" fill="#8FA3BA" opacity="0.28"/>
+  <rect x="270" y="190" width="660" height="420" rx="30" fill="#FFFFFF" opacity="0.15"/>
+  <text x="410" y="430" fill="#FFFFFF" font-size="66" font-family="Cormorant Garamond, serif">30.05.2026</text>
+</svg>

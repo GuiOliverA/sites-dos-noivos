@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Avatar madrinha">
+  <defs>
+    <linearGradient id="p1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A6FA5"/>
+      <stop offset="100%" stop-color="#243B5E"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#p1)"/>
+  <circle cx="200" cy="155" r="70" fill="#F0F2F5" opacity="0.9"/>
+  <rect x="110" y="240" width="180" height="110" rx="55" fill="#F0F2F5" opacity="0.85"/>
+</svg>
