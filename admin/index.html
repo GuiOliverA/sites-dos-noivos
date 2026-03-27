@@ -1,241 +1,267 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Painel Admin | Confirmações</title>
-	<link rel="stylesheet" href="../css/admin.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin | Confirmações</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <style>
+        body {
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
-	<main class="admin-page">
-		<header class="admin-header">
-			<div>
-				<p class="admin-eyebrow">Acesso restrito</p>
-				<h1>Confirmações de Presença</h1>
-			</div>
-			<button id="export-csv" class="btn-export" type="button">Exportar CSV</button>
-		</header>
+    <main class="admin-page">
+        <header class="admin-header">
+            <div>
+                <p class="admin-eyebrow">Acesso restrito</p>
+                <h1>Confirmações de Presença</h1>
+            </div>
+            <button id="export-csv" class="btn-export" type="button">Exportar CSV</button>
+        </header>
 
-		<section class="summary-grid" aria-label="Resumo das confirmações">
-			<article class="summary-card">
-				<p class="summary-label">Total de confirmações</p>
-				<p id="total-confirmacoes" class="summary-number">0</p>
-			</article>
-			<article class="summary-card">
-				<p class="summary-label">Total de pessoas</p>
-				<p id="total-pessoas" class="summary-number">0</p>
-			</article>
-		</section>
+        <section class="summary-grid" aria-label="Resumo das confirmações">
+            <article class="summary-card">
+                <p class="summary-label">Total de confirmações</p>
+                <p id="total-confirmacoes" class="summary-number">0</p>
+            </article>
+            <article class="summary-card">
+                <p class="summary-label">Total de pessoas</p>
+                <p id="total-pessoas" class="summary-number">0</p>
+            </article>
+        </section>
 
-		<section class="table-panel">
-			<div class="table-toolbar">
-				<label for="search-nome">Buscar por nome</label>
-				<input id="search-nome" type="search" placeholder="Digite o nome..." autocomplete="off">
-			</div>
+        <section class="table-panel">
+            <div class="table-toolbar">
+                <label for="search-nome">Buscar por nome</label>
+                <input id="search-nome" type="search" placeholder="Digite o nome..." autocomplete="off">
+            </div>
 
-			<p id="status" class="status-text" role="status" aria-live="polite">Carregando confirmações...</p>
+            <p id="status" class="status-text" role="status" aria-live="polite">Carregando confirmações...</p>
 
-			<div class="table-wrap">
-				<table>
-					<thead>
-						<tr>
-							<th>Nome</th>
-							<th>Acompanhantes</th>
-							<th>Presença</th>
-							<th>Mensagem</th>
-							<th>Data</th>
-						</tr>
-					</thead>
-					<tbody id="confirmacoes-body"></tbody>
-				</table>
-			</div>
-		</section>
-	</main>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Acompanhantes</th>
+                            <th>Presença</th>
+                            <th>Mensagem</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="confirmacoes-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 
-	<script>
-		const SUPABASE_URL = 'https://tummmtcgxaxhmdnclsxd.supabase.co';
-		const SUPABASE_KEY = 'sb_publishable_Hy43AwFo5rkRMwxABp8MQw_SBl9S2rr';
-		const TABLE_NAME = 'confirmacoes';
+    <script>
+        const ADMIN_PASSWORD = '@#Taine21';
+        const ADMIN_SESSION_KEY = 'admin-auth-ok';
 
-		const elements = {
-			totalConfirmacoes: document.getElementById('total-confirmacoes'),
-			totalPessoas: document.getElementById('total-pessoas'),
-			searchInput: document.getElementById('search-nome'),
-			tableBody: document.getElementById('confirmacoes-body'),
-			status: document.getElementById('status'),
-			exportButton: document.getElementById('export-csv')
-		};
+        const hasSessionAuth = sessionStorage.getItem(ADMIN_SESSION_KEY) === '1';
+        if (!hasSessionAuth) {
+            const typedPassword = window.prompt('Digite a senha de acesso ao painel admin:');
 
-		let allRecords = [];
+            if (typedPassword !== ADMIN_PASSWORD) {
+                document.body.style.display = 'block';
+                document.body.innerHTML = '<p>Acesso negado.</p>';
+                throw new Error('Acesso negado.');
+            }
 
-		const normalizeText = (value) =>
-			String(value || '')
-				.toLowerCase()
-				.normalize('NFD')
-				.replace(/[\u0300-\u036f]/g, '');
+            sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+        }
 
-		const escapeCsv = (value) => {
-			const raw = String(value ?? '').replace(/"/g, '""');
-			return `"${raw}"`;
-		};
+        document.body.style.display = 'block';
 
-		const formatDate = (isoDate) => {
-			if (!isoDate) return '-';
-			const date = new Date(isoDate);
-			if (Number.isNaN(date.getTime())) return '-';
-			return new Intl.DateTimeFormat('pt-BR', {
-				dateStyle: 'short',
-				timeStyle: 'short'
-			}).format(date);
-		};
+        const SUPABASE_URL = 'https://tummmtcgxaxhmdnclsxd.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_Hy43AwFo5rkRMwxABp8MQw_SBl9S2rr';
+        const TABLE_NAME = 'confirmacoes';
 
-		const presenceLabel = (value) => {
-			const text = normalizeText(value);
-			if (text === 'sim') return 'Sim';
-			if (text === 'nao' || text === 'não') return 'Não';
-			return value || '-';
-		};
+        const elements = {
+            totalConfirmacoes: document.getElementById('total-confirmacoes'),
+            totalPessoas: document.getElementById('total-pessoas'),
+            searchInput: document.getElementById('search-nome'),
+            tableBody: document.getElementById('confirmacoes-body'),
+            status: document.getElementById('status'),
+            exportButton: document.getElementById('export-csv')
+        };
 
-		const renderSummary = (records) => {
-			const totalConfirmacoes = records.length;
-			const totalPessoas = records.reduce((sum, item) => {
-				const acompanhantes = Number(item.acompanhantes) || 0;
-				return sum + 1 + Math.max(0, acompanhantes);
-			}, 0);
+        let allRecords = [];
 
-			elements.totalConfirmacoes.textContent = String(totalConfirmacoes);
-			elements.totalPessoas.textContent = String(totalPessoas);
-		};
+        const normalizeText = (value) =>
+            String(value || '')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '');
 
-		const createRow = (item) => {
-			const tr = document.createElement('tr');
-			const values = [
-				item.nome || '-',
-				String(Number(item.acompanhantes) || 0),
-				presenceLabel(item.presenca),
-				item.mensagem || '-',
-				formatDate(item.criado_em)
-			];
+        const escapeCsv = (value) => {
+            const raw = String(value ?? '').replace(/"/g, '""');
+            return `"${raw}"`;
+        };
 
-			values.forEach((value) => {
-				const td = document.createElement('td');
-				td.textContent = value;
-				tr.appendChild(td);
-			});
+        const formatDate = (isoDate) => {
+            if (!isoDate) return '-';
+            const date = new Date(isoDate);
+            if (Number.isNaN(date.getTime())) return '-';
+            return new Intl.DateTimeFormat('pt-BR', {
+                dateStyle: 'short',
+                timeStyle: 'short'
+            }).format(date);
+        };
 
-			return tr;
-		};
+        const presenceLabel = (value) => {
+            const text = normalizeText(value);
+            if (text === 'sim') return 'Sim';
+            if (text === 'nao' || text === 'não') return 'Não';
+            return value || '-';
+        };
 
-		const renderTable = (records) => {
-			elements.tableBody.innerHTML = '';
+        const renderSummary = (records) => {
+            const totalConfirmacoes = records.length;
+            const totalPessoas = records.reduce((sum, item) => {
+                const acompanhantes = Number(item.acompanhantes) || 0;
+                return sum + 1 + Math.max(0, acompanhantes);
+            }, 0);
 
-			if (!records.length) {
-				const emptyRow = document.createElement('tr');
-				emptyRow.innerHTML = '<td colspan="5" class="empty-row">Nenhuma confirmação encontrada.</td>';
-				elements.tableBody.appendChild(emptyRow);
-				return;
-			}
+            elements.totalConfirmacoes.textContent = String(totalConfirmacoes);
+            elements.totalPessoas.textContent = String(totalPessoas);
+        };
 
-			const fragment = document.createDocumentFragment();
-			records.forEach((item) => fragment.appendChild(createRow(item)));
-			elements.tableBody.appendChild(fragment);
-		};
+        const createRow = (item) => {
+            const tr = document.createElement('tr');
+            const values = [
+                item.nome || '-',
+                String(Number(item.acompanhantes) || 0),
+                presenceLabel(item.presenca),
+                item.mensagem || '-',
+                formatDate(item.criado_em)
+            ];
 
-		const setStatus = (message, type) => {
-			elements.status.textContent = message;
-			elements.status.classList.remove('error', 'ok');
-			if (type) {
-				elements.status.classList.add(type);
-			}
-		};
+            values.forEach((value) => {
+                const td = document.createElement('td');
+                td.textContent = value;
+                tr.appendChild(td);
+            });
 
-		const applyFilter = () => {
-			const term = normalizeText(elements.searchInput.value);
-			const filtered = term
-				? allRecords.filter((item) => normalizeText(item.nome).includes(term))
-				: allRecords;
+            return tr;
+        };
 
-			renderSummary(filtered);
-			renderTable(filtered);
+        const renderTable = (records) => {
+            elements.tableBody.innerHTML = '';
 
-			if (filtered.length !== allRecords.length) {
-				setStatus(`Mostrando ${filtered.length} de ${allRecords.length} confirmações.`, 'ok');
-			} else {
-				setStatus(`${allRecords.length} confirmações carregadas.`, 'ok');
-			}
-		};
+            if (!records.length) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = '<td colspan="5" class="empty-row">Nenhuma confirmação encontrada.</td>';
+                elements.tableBody.appendChild(emptyRow);
+                return;
+            }
 
-		const exportCsv = () => {
-			if (!allRecords.length) {
-				setStatus('Não há dados para exportar.', 'error');
-				return;
-			}
+            const fragment = document.createDocumentFragment();
+            records.forEach((item) => fragment.appendChild(createRow(item)));
+            elements.tableBody.appendChild(fragment);
+        };
 
-			const header = ['Nome', 'Acompanhantes', 'Presença', 'Mensagem', 'Data'];
-			const lines = [header.map(escapeCsv).join(';')];
+        const setStatus = (message, type) => {
+            elements.status.textContent = message;
+            elements.status.classList.remove('error', 'ok');
+            if (type) {
+                elements.status.classList.add(type);
+            }
+        };
 
-			allRecords.forEach((item) => {
-				lines.push([
-					item.nome || '',
-					Number(item.acompanhantes) || 0,
-					presenceLabel(item.presenca),
-					item.mensagem || '',
-					formatDate(item.criado_em)
-				].map(escapeCsv).join(';'));
-			});
+        const applyFilter = () => {
+            const term = normalizeText(elements.searchInput.value);
+            const filtered = term
+                ? allRecords.filter((item) => normalizeText(item.nome).includes(term))
+                : allRecords;
 
-			const blob = new Blob([`\uFEFF${lines.join('\n')}`], { type: 'text/csv;charset=utf-8;' });
-			const url = URL.createObjectURL(blob);
-			const link = document.createElement('a');
-			const dateTag = new Date().toISOString().slice(0, 10);
-			link.href = url;
-			link.download = `confirmacoes-${dateTag}.csv`;
-			document.body.appendChild(link);
-			link.click();
-			link.remove();
-			URL.revokeObjectURL(url);
+            renderSummary(filtered);
+            renderTable(filtered);
 
-			setStatus('CSV exportado com sucesso.', 'ok');
-		};
+            if (filtered.length !== allRecords.length) {
+                setStatus(`Mostrando ${filtered.length} de ${allRecords.length} confirmações.`, 'ok');
+            } else {
+                setStatus(`${allRecords.length} confirmações carregadas.`, 'ok');
+            }
+        };
 
-		const fetchConfirmacoes = async () => {
-			const endpoint = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id,criado_em,nome,acompanhantes,presenca,mensagem&order=criado_em.desc`;
+        const exportCsv = () => {
+            if (!allRecords.length) {
+                setStatus('Não há dados para exportar.', 'error');
+                return;
+            }
 
-			const response = await fetch(endpoint, {
-				method: 'GET',
-				headers: {
-					apikey: SUPABASE_KEY,
-					Authorization: `Bearer ${SUPABASE_KEY}`,
-					'Content-Type': 'application/json'
-				}
-			});
+            const header = ['Nome', 'Acompanhantes', 'Presença', 'Mensagem', 'Data'];
+            const lines = [header.map(escapeCsv).join(';')];
 
-			if (!response.ok) {
-				const errorText = await response.text();
-				throw new Error(errorText || 'Falha ao carregar confirmações.');
-			}
+            allRecords.forEach((item) => {
+                lines.push([
+                    item.nome || '',
+                    Number(item.acompanhantes) || 0,
+                    presenceLabel(item.presenca),
+                    item.mensagem || '',
+                    formatDate(item.criado_em)
+                ].map(escapeCsv).join(';'));
+            });
 
-			return response.json();
-		};
+            const blob = new Blob([`\uFEFF${lines.join('\n')}`], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            const dateTag = new Date().toISOString().slice(0, 10);
+            link.href = url;
+            link.download = `confirmacoes-${dateTag}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
 
-		const init = async () => {
-			try {
-				const records = await fetchConfirmacoes();
-				allRecords = Array.isArray(records) ? records : [];
-				applyFilter();
-			} catch (error) {
-				console.error('Erro ao buscar confirmações:', error);
-				allRecords = [];
-				renderSummary([]);
-				renderTable([]);
-				setStatus('Erro ao carregar confirmações. Verifique a conexão com o Supabase.', 'error');
-			}
-		};
+            setStatus('CSV exportado com sucesso.', 'ok');
+        };
 
-		elements.searchInput.addEventListener('input', applyFilter);
-		elements.exportButton.addEventListener('click', exportCsv);
+        const fetchConfirmacoes = async () => {
+            const endpoint = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id,criado_em,nome,acompanhantes,presenca,mensagem&order=criado_em.desc`;
 
-		init();
-	</script>
+            const response = await fetch(endpoint, {
+                method: 'GET',
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    Authorization: `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || 'Falha ao carregar confirmações.');
+            }
+
+            return response.json();
+        };
+
+        const init = async () => {
+            try {
+                const records = await fetchConfirmacoes();
+                allRecords = Array.isArray(records) ? records : [];
+                applyFilter();
+            } catch (error) {
+                console.error('Erro ao buscar confirmações:', error);
+                allRecords = [];
+                renderSummary([]);
+                renderTable([]);
+                setStatus('Erro ao carregar confirmações. Verifique a conexão com o Supabase.', 'error');
+            }
+        };
+
+        elements.searchInput.addEventListener('input', applyFilter);
+        elements.exportButton.addEventListener('click', exportCsv);
+
+        init();
+    </script>
 </body>
+
 </html>
