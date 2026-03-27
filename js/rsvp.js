@@ -6,6 +6,23 @@ const form = document.getElementById('form-rsvp');
 const statusElement = document.getElementById('rsvp-status');
 const submitButton = form ? form.querySelector('[type="submit"]') : null;
 
+const showToast = (name) => {
+    const toast = document.getElementById('rsvp-toast');
+    const sub = document.getElementById('rsvp-toast-sub');
+    if (!toast) return;
+
+    if (sub) {
+        sub.textContent = name ? `Até breve, ${name}!` : 'Até breve!';
+    }
+
+    clearTimeout(toast._timer);
+    toast.classList.add('rsvp-toast--visible');
+
+    toast._timer = setTimeout(() => {
+        toast.classList.remove('rsvp-toast--visible');
+    }, 4000);
+};
+
 const setStatus = (message, type) => {
     if (!statusElement) {
         return;
@@ -90,7 +107,8 @@ if (form) {
             }
 
             form.reset();
-            setStatus('Presença confirmada! 🎉', 'success');
+            setStatus('Informações enviadas com sucesso!', 'success');
+            showToast(payload.nome);
         } catch (error) {
             setStatus('Não foi possível enviar agora. Tente novamente em instantes.', 'error');
             console.error('Erro RSVP:', error);

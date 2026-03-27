@@ -439,6 +439,62 @@ h2 {
     color: #a32d2d;
 }
 
+/* Toast de confirmação RSVP */
+.rsvp-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(1.5rem);
+    background: var(--white);
+    border-left: 4px solid var(--gold);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(13, 27, 53, 0.18);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    min-width: 260px;
+    max-width: 90vw;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+}
+
+.rsvp-toast.rsvp-toast--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.rsvp-toast__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e6f4ec;
+    color: #1f6b38;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.rsvp-toast__title {
+    font-size: 0.97rem;
+    color: var(--navy);
+    display: block;
+}
+
+.rsvp-toast__sub {
+    font-size: 0.82rem;
+    color: var(--blue-gray);
+    margin-top: 0.15rem;
+}
+
 .gifts-actions {
     max-width: 840px;
     margin: 0 auto;
