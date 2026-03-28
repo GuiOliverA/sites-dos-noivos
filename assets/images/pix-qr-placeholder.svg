@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520" role="img" aria-labelledby="title desc">
+  <title id="title">Espaco para QR Code PIX</title>
+  <desc id="desc">Imagem de placeholder para inserir o QR Code PIX dos noivos.</desc>
+  <rect width="520" height="520" rx="28" fill="#f4f6fb"/>
+  <rect x="24" y="24" width="472" height="472" rx="22" fill="#ffffff" stroke="#c8d0dc" stroke-width="8"/>
+  <g fill="#243b5e">
+    <rect x="68" y="68" width="110" height="110"/>
+    <rect x="80" y="80" width="86" height="86" fill="#ffffff"/>
+    <rect x="92" y="92" width="62" height="62"/>
+
+    <rect x="342" y="68" width="110" height="110"/>
+    <rect x="354" y="80" width="86" height="86" fill="#ffffff"/>
+    <rect x="366" y="92" width="62" height="62"/>
+
+    <rect x="68" y="342" width="110" height="110"/>
+    <rect x="80" y="354" width="86" height="86" fill="#ffffff"/>
+    <rect x="92" y="366" width="62" height="62"/>
+
+    <rect x="220" y="214" width="24" height="24"/>
+    <rect x="252" y="214" width="24" height="24"/>
+    <rect x="284" y="214" width="24" height="24"/>
+    <rect x="316" y="214" width="24" height="24"/>
+    <rect x="220" y="246" width="24" height="24"/>
+    <rect x="284" y="246" width="24" height="24"/>
+    <rect x="348" y="246" width="24" height="24"/>
+    <rect x="220" y="278" width="24" height="24"/>
+    <rect x="252" y="278" width="24" height="24"/>
+    <rect x="316" y="278" width="24" height="24"/>
+    <rect x="348" y="278" width="24" height="24"/>
+    <rect x="252" y="310" width="24" height="24"/>
+    <rect x="284" y="310" width="24" height="24"/>
+    <rect x="316" y="310" width="24" height="24"/>
+  </g>
+  <text x="260" y="488" text-anchor="middle" fill="#4a6fa5" font-family="Manrope, Arial, sans-serif" font-size="22" letter-spacing="1.2">SUBSTITUA PELO QR CODE PIX</text>
+</svg>
