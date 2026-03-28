@@ -102,6 +102,13 @@ h1 {
     line-height: 1;
 }
 
+.summary-note {
+    margin: 0.55rem 0 0;
+    font-size: 0.76rem;
+    line-height: 1.35;
+    color: var(--muted);
+}
+
 .table-panel {
     background: rgba(20, 32, 53, 0.8);
     backdrop-filter: blur(3px);

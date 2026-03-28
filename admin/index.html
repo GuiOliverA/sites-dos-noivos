@@ -34,8 +34,17 @@
                 <p id="total-confirmacoes" class="summary-number">0</p>
             </article>
             <article class="summary-card">
-                <p class="summary-label">Total de pessoas</p>
+                <p class="summary-label">Total de convidados</p>
                 <p id="total-pessoas" class="summary-number">0</p>
+            </article>
+            <article class="summary-card">
+                <p class="summary-label">Total de crianças</p>
+                <p id="total-criancas" class="summary-number">0</p>
+            </article>
+            <article class="summary-card">
+                <p class="summary-label">Saldo de vagas (limite 150)</p>
+                <p id="saldo-vagas" class="summary-number">0</p>
+                <p class="summary-note">Crianças até 5 anos não contabilizadas no limite</p>
             </article>
         </section>
 
@@ -53,6 +62,7 @@
                         <tr>
                             <th>Nome</th>
                             <th>Acompanhantes</th>
+                            <th>Crianças</th>
                             <th>Presença</th>
                             <th>Mensagem</th>
                             <th>Data</th>
@@ -90,6 +100,8 @@
         const elements = {
             totalConfirmacoes: document.getElementById('total-confirmacoes'),
             totalPessoas: document.getElementById('total-pessoas'),
+            totalCriancas: document.getElementById('total-criancas'),
+            saldoVagas: document.getElementById('saldo-vagas'),
             searchInput: document.getElementById('search-nome'),
             tableBody: document.getElementById('confirmacoes-body'),
             status: document.getElementById('status'),
@@ -115,7 +127,6 @@
             if (Number.isNaN(date.getTime())) return '-';
             return new Intl.DateTimeFormat('pt-BR', {
                 dateStyle: 'short',
-                timeStyle: 'short',
                 timeZone: 'America/Sao_Paulo'
             }).format(date);
         };
@@ -133,9 +144,14 @@
                 const acompanhantes = Number(item.acompanhantes) || 0;
                 return sum + 1 + Math.max(0, acompanhantes);
             }, 0);
+            const totalCriancas = records.reduce((sum, item) => {
+                return sum + Math.max(0, Number(item.quantidade_criancas) || 0);
+            }, 0);
 
             elements.totalConfirmacoes.textContent = String(totalConfirmacoes);
             elements.totalPessoas.textContent = String(totalPessoas);
+            elements.totalCriancas.textContent = String(totalCriancas);
+            elements.saldoVagas.textContent = String(150 - totalPessoas);
         };
 
         const createRow = (item) => {
@@ -143,6 +159,7 @@
             const values = [
                 item.nome || '-',
                 String(Number(item.acompanhantes) || 0),
+                String(Number(item.quantidade_criancas) || 0),
                 presenceLabel(item.presenca),
                 item.mensagem || '-',
                 formatDate(item.criado_em)
@@ -162,7 +179,7 @@
 
             if (!records.length) {
                 const emptyRow = document.createElement('tr');
-                emptyRow.innerHTML = '<td colspan="5" class="empty-row">Nenhuma confirmação encontrada.</td>';
+                emptyRow.innerHTML = '<td colspan="6" class="empty-row">Nenhuma confirmação encontrada.</td>';
                 elements.tableBody.appendChild(emptyRow);
                 return;
             }
@@ -202,13 +219,14 @@
                 return;
             }
 
-            const header = ['Nome', 'Acompanhantes', 'Presença', 'Mensagem', 'Data'];
+            const header = ['Nome', 'Acompanhantes', 'Crianças', 'Presença', 'Mensagem', 'Data'];
             const lines = [header.map(escapeCsv).join(';')];
 
             allRecords.forEach((item) => {
                 lines.push([
                     item.nome || '',
                     Number(item.acompanhantes) || 0,
+                    Number(item.quantidade_criancas) || 0,
                     presenceLabel(item.presenca),
                     item.mensagem || '',
                     formatDate(item.criado_em)
@@ -230,7 +248,7 @@
         };
 
         const fetchConfirmacoes = async () => {
-            const endpoint = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id,criado_em,nome,acompanhantes,presenca,mensagem&order=criado_em.desc`;
+            const endpoint = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id,criado_em,nome,acompanhantes,quantidade_criancas,presenca,mensagem&order=criado_em.desc`;
 
             const response = await fetch(endpoint, {
                 method: 'GET',
