@@ -521,7 +521,8 @@ h2 {
     background: linear-gradient(130deg, var(--navy), var(--deep-blue));
     color: var(--mist);
     text-align: center;
-    padding: 2.6rem 0 3rem;
+    padding-top: 5.5rem;
+    padding-bottom: 5.5rem;
 }
 
 .special-phrase {
@@ -534,6 +535,16 @@ h2 {
 .contact {
     color: var(--silver);
     font-size: 0.92rem;
+}
+
+.contact a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.contact a:hover,
+.contact a:focus-visible {
+    text-decoration: underline;
 }
 
 .lightbox {
