@@ -6,6 +6,7 @@
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 
 # 💍 Guilherme & Taine — Site dos Noivos
+(Ainda não finalizado)
 Site de casamento desenvolvido para o casamento de Guilherme e Taine, marcado para 30 de maio de 2026 na Chácara Laggus, Campo Largo - PR.
 sites-dos-noivos.vercel.app
 
@@ -22,7 +23,7 @@ Single Page Application estática com as seções:
 
 
 ## Stack
-CamadaTecnologiaFrontendHTML5, CSS3, JavaScriptBanco de dadosSupabase (PostgreSQL)HospedagemVercelControle de versãoGitHub
+Camada: Tecnologia Frontend HTML5, CSS3, JavaScript. Banco de dados: Supabase (PostgreSQL). Hospedagem: Vercel. Controle de versão: GitHub
 
 ```
 ## Estrutura
