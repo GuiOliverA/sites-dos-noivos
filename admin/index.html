@@ -99,11 +99,40 @@
         const SUPABASE_KEY = 'sb_publishable_Hy43AwFo5rkRMwxABp8MQw_SBl9S2rr';
         const TABLE_NAME = 'confirmacoes';
 
+        const ensureRecusasCard = () => {
+            const grid = document.querySelector('.summary-grid');
+            if (!grid) return null;
+
+            const existing = document.getElementById('total-recusas');
+            if (existing) return existing;
+
+            const card = document.createElement('article');
+            card.className = 'summary-card';
+
+            const label = document.createElement('p');
+            label.className = 'summary-label';
+            label.textContent = 'Recusas (Nao)';
+
+            const number = document.createElement('p');
+            number.id = 'total-recusas';
+            number.className = 'summary-number';
+            number.textContent = '0';
+
+            card.appendChild(label);
+            card.appendChild(number);
+            grid.appendChild(card);
+
+            return number;
+        };
+
+        const recusasElement = ensureRecusasCard();
+
         const elements = {
             totalConfirmacoes: document.getElementById('total-confirmacoes'),
             totalPessoas: document.getElementById('total-pessoas'),
             totalCriancas: document.getElementById('total-criancas'),
             saldoVagas: document.getElementById('saldo-vagas'),
+            totalRecusas: recusasElement,
             searchInput: document.getElementById('search-nome'),
             tableBody: document.getElementById('confirmacoes-body'),
             status: document.getElementById('status'),
@@ -140,19 +169,35 @@
             return value || '-';
         };
 
+        const hasConfirmedPresence = (value) => normalizeText(value) === 'sim';
+        const hasDeclinedPresence = (value) => {
+            const text = normalizeText(value);
+            return text === 'nao' || text === 'não';
+        };
+
         const renderSummary = (records) => {
-            const totalConfirmacoes = records.length;
-            const totalPessoas = records.reduce((sum, item) => {
+            const confirmedRecords = records.filter((item) => hasConfirmedPresence(item.presenca));
+            const totalConfirmacoes = confirmedRecords.length;
+            const totalRecusas = records.filter((item) => hasDeclinedPresence(item.presenca)).length;
+            const totalPessoas = confirmedRecords.reduce((sum, item) => {
                 const acompanhantes = Number(item.acompanhantes) || 0;
                 return sum + 1 + Math.max(0, acompanhantes);
             }, 0);
-            const totalCriancas = records.reduce((sum, item) => {
+            const totalCriancas = confirmedRecords.reduce((sum, item) => {
                 return sum + Math.max(0, Number(item.quantidade_criancas) || 0);
             }, 0);
+
+            const summaryLabels = document.querySelectorAll('.summary-grid .summary-card .summary-label');
+            if (summaryLabels[0]) {
+                summaryLabels[0].textContent = 'Confirmados (Sim)';
+            }
 
             elements.totalConfirmacoes.textContent = String(totalConfirmacoes);
             elements.totalPessoas.textContent = String(totalPessoas);
             elements.totalCriancas.textContent = String(totalCriancas);
+            if (elements.totalRecusas) {
+                elements.totalRecusas.textContent = String(totalRecusas);
+            }
             elements.saldoVagas.textContent = String(150 - totalPessoas);
         };
 
