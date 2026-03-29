@@ -9,329 +9,690 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
-
     <link rel="manifest" href="../site.webmanifest">
-    <meta name="theme-color" content="#f5f0ea">
-    <link rel="stylesheet" href="../css/admin.css">
+    <meta name="theme-color" content="#1B2A4A">
+
     <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #1B2A4A;
+            --navy-mid: #243B5E;
+            --steel: #4A6FA5;
+            --gold: #C9A84C;
+            --fog: #F0F2F5;
+            --silver: #C8D0DC;
+            --slate: #8FA3BA;
+            --white: #FFFFFF;
+            --danger: #a32d2d;
+        }
+
         body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--navy);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        /* ── LOGIN ── */
+        #login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .login-card {
+            background: var(--navy-mid);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+
+        .login-card .brand {
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-card h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 2rem;
+        }
+
+        .login-card label {
+            display: block;
+            text-align: left;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--slate);
+            margin-bottom: 0.35rem;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border-radius: 6px;
+            border: 1px solid rgba(143, 163, 186, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--white);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .login-card input:focus {
+            border-color: var(--gold);
+        }
+
+        .login-card input::placeholder {
+            color: var(--slate);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.7rem;
+            background: var(--gold);
+            color: var(--navy);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 0.25rem;
+        }
+
+        .btn-login:hover {
+            opacity: 0.88;
+        }
+
+        .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #login-error {
+            margin-top: 0.85rem;
+            font-size: 0.85rem;
+            color: #f09595;
+            min-height: 1.2rem;
+        }
+
+        /* ── ADMIN ── */
+        #admin-screen {
             display: none;
+        }
+
+        .admin-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem 3rem;
+        }
+
+        .admin-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .admin-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .admin-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.65rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-export,
+        .btn-logout {
+            padding: 0.5rem 1.1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            border: 1px solid;
+        }
+
+        .btn-export {
+            background: var(--white);
+            color: var(--navy);
+            border-color: var(--white);
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: var(--slate);
+            border-color: rgba(143, 163, 186, 0.35);
+        }
+
+        .btn-export:hover,
+        .btn-logout:hover {
+            opacity: 0.75;
+        }
+
+        /* summary cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: var(--navy-mid);
+            border: 1px solid rgba(143, 163, 186, 0.18);
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .summary-card--wide {
+            grid-column: auto;
+        }
+
+        .summary-label {
+            font-size: 0.8rem;
+            color: var(--slate);
+            margin-bottom: 0.4rem;
+        }
+
+        .summary-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .summary-note {
+            font-size: 0.72rem;
+            color: var(--slate);
+            margin-top: 0.35rem;
+        }
+
+        /* table panel */
+        .table-panel {
+            background: var(--navy-mid);
+            border: 1px solid rgba(143, 163, 186, 0.18);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .table-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .table-toolbar label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--white);
+        }
+
+        .table-toolbar input {
+            padding: 0.5rem 0.85rem;
+            border-radius: 6px;
+            border: 1px solid rgba(143, 163, 186, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--white);
+            font-size: 0.9rem;
+            width: 220px;
+            outline: none;
+        }
+
+        .table-toolbar input:focus {
+            border-color: var(--gold);
+        }
+
+        .table-toolbar input::placeholder {
+            color: var(--slate);
+        }
+
+        .status-text {
+            font-size: 0.82rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .status-text.error {
+            color: #f09595;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 520px;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 0.6rem 0.85rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--slate);
+            border-bottom: 1px solid rgba(143, 163, 186, 0.2);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba(143, 163, 186, 0.1);
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        tbody td {
+            padding: 0.7rem 0.85rem;
+            color: var(--fog);
+            vertical-align: top;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: var(--slate);
+            padding: 2rem !important;
+        }
+
+        @media (max-width: 640px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .summary-card {
+                min-width: 0;
+                padding: 1.1rem 1rem;
+            }
+
+            .summary-card--wide {
+                grid-column: 1 / -1;
+            }
+
+            .table-panel {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <main class="admin-page">
-        <header class="admin-header">
-            <div>
-                <p class="admin-eyebrow">Acesso restrito</p>
-                <h1>Confirmações de Presença</h1>
-            </div>
-            <button id="export-csv" class="btn-export" type="button">Exportar CSV</button>
-        </header>
 
-        <section class="summary-grid" aria-label="Resumo das confirmações">
-            <article class="summary-card">
-                <p class="summary-label">Total de confirmações</p>
-                <p id="total-confirmacoes" class="summary-number">0</p>
-            </article>
-            <article class="summary-card">
-                <p class="summary-label">Total de convidados</p>
-                <p id="total-pessoas" class="summary-number">0</p>
-            </article>
-            <article class="summary-card">
-                <p class="summary-label">Total de crianças</p>
-                <p id="total-criancas" class="summary-number">0</p>
-            </article>
-            <article class="summary-card">
-                <p class="summary-label">Saldo de vagas (limite 150)</p>
-                <p id="saldo-vagas" class="summary-number">0</p>
-                <p class="summary-note">Crianças até 5 anos não contabilizadas no limite</p>
-            </article>
-        </section>
+    <!-- LOGIN -->
+    <div id="login-screen">
+        <div class="login-card">
+            <p class="brand">Guilherme & Taine</p>
+            <h1>Painel Admin</h1>
+            <label for="input-email">E-mail</label>
+            <input id="input-email" type="email" placeholder="seu@email.com" autocomplete="email">
+            <label for="input-password">Senha</label>
+            <input id="input-password" type="password" placeholder="••••••••" autocomplete="current-password">
+            <button id="btn-login" class="btn-login" type="button">Entrar</button>
+            <p id="login-error"></p>
+        </div>
+    </div>
 
-        <section class="table-panel">
-            <div class="table-toolbar">
-                <label for="search-nome">Buscar por nome</label>
-                <input id="search-nome" type="search" placeholder="Digite o nome..." autocomplete="off">
-            </div>
+    <!-- ADMIN -->
+    <div id="admin-screen">
+        <main class="admin-page">
+            <header class="admin-header">
+                <div>
+                    <p class="admin-eyebrow">Acesso restrito</p>
+                    <h1>Confirmações de Presença</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="export-csv" class="btn-export" type="button">Exportar CSV</button>
+                    <button id="btn-logout" class="btn-logout" type="button">Sair</button>
+                </div>
+            </header>
 
-            <p id="status" class="status-text" role="status" aria-live="polite">Carregando confirmações...</p>
+            <section class="summary-grid" aria-label="Resumo das confirmações">
+                <article class="summary-card">
+                    <p class="summary-label">Confirmados (Sim)</p>
+                    <p id="total-confirmacoes" class="summary-number">0</p>
+                </article>
+                <article class="summary-card">
+                    <p class="summary-label">Total de convidados</p>
+                    <p id="total-pessoas" class="summary-number">0</p>
+                </article>
+                <article class="summary-card">
+                    <p class="summary-label">Total de crianças</p>
+                    <p id="total-criancas" class="summary-number">0</p>
+                </article>
+                <article class="summary-card">
+                    <p class="summary-label">Recusas (Não)</p>
+                    <p id="total-recusas" class="summary-number">0</p>
+                </article>
+                <article class="summary-card summary-card--wide">
+                    <p class="summary-label">Saldo de vagas (limite 150)</p>
+                    <p id="saldo-vagas" class="summary-number">150</p>
+                    <p class="summary-note">Crianças até 5 anos não contabilizadas no limite</p>
+                </article>
+            </section>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Acompanhantes</th>
-                            <th>Crianças</th>
-                            <th>Presença</th>
-                            <th>Mensagem</th>
-                            <th>Data</th>
-                        </tr>
-                    </thead>
-                    <tbody id="confirmacoes-body"></tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+            <section class="table-panel">
+                <div class="table-toolbar">
+                    <label for="search-nome">Buscar por nome</label>
+                    <input id="search-nome" type="search" placeholder="Digite o nome..." autocomplete="off">
+                </div>
+                <p id="status" class="status-text" role="status" aria-live="polite">Carregando confirmações...</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Acompanhantes</th>
+                                <th>Crianças</th>
+                                <th>Presença</th>
+                                <th>Mensagem</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="confirmacoes-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <script>
-        const ADMIN_PASSWORD = '@#Taine21';
-        const ADMIN_SESSION_KEY = 'admin-auth-ok';
+        const SUPABASE_URL = 'https://tummmtcgxaxhmdnclsxd.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1bW1tdGNneGF4aG1kbmNsc3hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTgwNTIsImV4cCI6MjA5MDA3NDA1Mn0.PlQ04X0blB9Au-Ojz5yT7UR6Ey31_wyJgTBxsa7Da1w';
+        const TABLE_NAME = 'confirmacoes';
+        const ADMIN_ACCESS_TOKEN_KEY = 'admin_access_token';
 
-        const hasSessionAuth = sessionStorage.getItem(ADMIN_SESSION_KEY) === '1';
-        if (!hasSessionAuth) {
-            const typedPassword = window.prompt('Digite a senha de acesso ao painel admin:');
+        const loginScreen = document.getElementById('login-screen');
+        const adminScreen = document.getElementById('admin-screen');
+        const inputEmail = document.getElementById('input-email');
+        const inputPass = document.getElementById('input-password');
+        const btnLogin = document.getElementById('btn-login');
+        const loginError = document.getElementById('login-error');
+        const btnLogout = document.getElementById('btn-logout');
 
-            if (typedPassword !== ADMIN_PASSWORD) {
-                document.body.style.display = 'block';
-                document.body.innerHTML = '<p>Acesso negado.</p>';
-                throw new Error('Acesso negado.');
+        let accessToken = sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY);
+
+        const showLogin = (message = '') => {
+            adminScreen.style.display = 'none';
+            loginScreen.style.display = 'flex';
+            inputPass.value = '';
+            loginError.textContent = message;
+        };
+
+        const showAdmin = () => {
+            loginError.textContent = '';
+            loginScreen.style.display = 'none';
+            adminScreen.style.display = 'block';
+        };
+
+        const clearAdminSession = () => {
+            accessToken = null;
+            sessionStorage.removeItem(ADMIN_ACCESS_TOKEN_KEY);
+        };
+
+        const handleUnauthorized = () => {
+            clearAdminSession();
+            allRecords = [];
+            renderSummary([]);
+            renderTable([]);
+            showLogin('Sessão expirada. Faça login novamente.');
+        };
+
+        // ── AUTH ──
+        const signIn = async () => {
+            const email = inputEmail.value.trim();
+            const password = inputPass.value;
+
+            if (!email || !password) {
+                loginError.textContent = 'Preencha e-mail e senha.';
+                return;
             }
 
-            sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
-        }
+            btnLogin.disabled = true;
+            btnLogin.textContent = 'Entrando...';
+            loginError.textContent = '';
 
-        document.body.style.display = 'block';
+            try {
+                const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+                    method: 'POST',
+                    headers: {
+                        apikey: SUPABASE_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
 
-        const SUPABASE_URL = 'https://tummmtcgxaxhmdnclsxd.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_Hy43AwFo5rkRMwxABp8MQw_SBl9S2rr';
-        const TABLE_NAME = 'confirmacoes';
+                const data = await res.json();
 
-        const ensureRecusasCard = () => {
-            const grid = document.querySelector('.summary-grid');
-            if (!grid) return null;
+                if (!res.ok) {
+                    loginError.textContent = 'E-mail ou senha incorretos.';
+                    return;
+                }
 
-            const existing = document.getElementById('total-recusas');
-            if (existing) return existing;
+                accessToken = data.access_token;
+                sessionStorage.setItem(ADMIN_ACCESS_TOKEN_KEY, accessToken);
+                showAdmin();
+                init();
 
-            const card = document.createElement('article');
-            card.className = 'summary-card';
-
-            const label = document.createElement('p');
-            label.className = 'summary-label';
-            label.textContent = 'Recusas (Nao)';
-
-            const number = document.createElement('p');
-            number.id = 'total-recusas';
-            number.className = 'summary-number';
-            number.textContent = '0';
-
-            card.appendChild(label);
-            card.appendChild(number);
-            grid.appendChild(card);
-
-            return number;
+            } catch {
+                loginError.textContent = 'Erro de conexão. Tente novamente.';
+            } finally {
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'Entrar';
+            }
         };
 
-        const recusasElement = ensureRecusasCard();
-
-        const elements = {
-            totalConfirmacoes: document.getElementById('total-confirmacoes'),
-            totalPessoas: document.getElementById('total-pessoas'),
-            totalCriancas: document.getElementById('total-criancas'),
-            saldoVagas: document.getElementById('saldo-vagas'),
-            totalRecusas: recusasElement,
-            searchInput: document.getElementById('search-nome'),
-            tableBody: document.getElementById('confirmacoes-body'),
-            status: document.getElementById('status'),
-            exportButton: document.getElementById('export-csv')
+        const signOut = async () => {
+            if (accessToken) {
+                await fetch(`${SUPABASE_URL}/auth/v1/logout`, {
+                    method: 'POST',
+                    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${accessToken}` }
+                }).catch(() => { });
+            }
+            clearAdminSession();
+            showLogin();
         };
 
+        btnLogin.addEventListener('click', signIn);
+        inputPass.addEventListener('keydown', (e) => { if (e.key === 'Enter') signIn(); });
+        btnLogout.addEventListener('click', signOut);
+
+        // ── DADOS ──
         let allRecords = [];
 
-        const normalizeText = (value) =>
-            String(value || '')
-                .toLowerCase()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '');
+        const normalizeText = (v) =>
+            String(v || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-        const escapeCsv = (value) => {
-            const raw = String(value ?? '').replace(/"/g, '""');
-            return `"${raw}"`;
+        const escapeCsv = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+
+        const formatDate = (iso) => {
+            if (!iso) return '-';
+            const d = new Date(iso);
+            return isNaN(d) ? '-' : new Intl.DateTimeFormat('pt-BR', {
+                dateStyle: 'short', timeZone: 'America/Sao_Paulo'
+            }).format(d);
         };
 
-        const formatDate = (isoDate) => {
-            if (!isoDate) return '-';
-            const date = new Date(isoDate);
-            if (Number.isNaN(date.getTime())) return '-';
-            return new Intl.DateTimeFormat('pt-BR', {
-                dateStyle: 'short',
-                timeZone: 'America/Sao_Paulo'
-            }).format(date);
+        const presenceLabel = (v) => {
+            const t = normalizeText(v);
+            if (t === 'sim') return 'Sim';
+            if (t === 'nao' || t === 'não') return 'Não';
+            return v || '-';
         };
 
-        const presenceLabel = (value) => {
-            const text = normalizeText(value);
-            if (text === 'sim') return 'Sim';
-            if (text === 'nao' || text === 'não') return 'Não';
-            return value || '-';
-        };
-
-        const hasConfirmedPresence = (value) => normalizeText(value) === 'sim';
-        const hasDeclinedPresence = (value) => {
-            const text = normalizeText(value);
-            return text === 'nao' || text === 'não';
-        };
+        const isConfirmed = (v) => normalizeText(v) === 'sim';
+        const isDeclined = (v) => { const t = normalizeText(v); return t === 'nao' || t === 'não'; };
 
         const renderSummary = (records) => {
-            const confirmedRecords = records.filter((item) => hasConfirmedPresence(item.presenca));
-            const totalConfirmacoes = confirmedRecords.length;
-            const totalRecusas = records.filter((item) => hasDeclinedPresence(item.presenca)).length;
-            const totalPessoas = confirmedRecords.reduce((sum, item) => {
-                const acompanhantes = Number(item.acompanhantes) || 0;
-                return sum + 1 + Math.max(0, acompanhantes);
-            }, 0);
-            const totalCriancas = confirmedRecords.reduce((sum, item) => {
-                return sum + Math.max(0, Number(item.quantidade_criancas) || 0);
-            }, 0);
+            const confirmed = records.filter((r) => isConfirmed(r.presenca));
+            const pessoas = confirmed.reduce((s, r) => s + 1 + Math.max(0, Number(r.acompanhantes) || 0), 0);
+            const criancas = confirmed.reduce((s, r) => s + Math.max(0, Number(r.quantidade_criancas) || 0), 0);
+            const recusas = records.filter((r) => isDeclined(r.presenca)).length;
 
-            const summaryLabels = document.querySelectorAll('.summary-grid .summary-card .summary-label');
-            if (summaryLabels[0]) {
-                summaryLabels[0].textContent = 'Confirmados (Sim)';
-            }
-
-            elements.totalConfirmacoes.textContent = String(totalConfirmacoes);
-            elements.totalPessoas.textContent = String(totalPessoas);
-            elements.totalCriancas.textContent = String(totalCriancas);
-            if (elements.totalRecusas) {
-                elements.totalRecusas.textContent = String(totalRecusas);
-            }
-            elements.saldoVagas.textContent = String(150 - totalPessoas);
-        };
-
-        const createRow = (item) => {
-            const tr = document.createElement('tr');
-            const values = [
-                item.nome || '-',
-                String(Number(item.acompanhantes) || 0),
-                String(Number(item.quantidade_criancas) || 0),
-                presenceLabel(item.presenca),
-                item.mensagem || '-',
-                formatDate(item.criado_em)
-            ];
-
-            values.forEach((value) => {
-                const td = document.createElement('td');
-                td.textContent = value;
-                tr.appendChild(td);
-            });
-
-            return tr;
+            document.getElementById('total-confirmacoes').textContent = confirmed.length;
+            document.getElementById('total-pessoas').textContent = pessoas;
+            document.getElementById('total-criancas').textContent = criancas;
+            document.getElementById('total-recusas').textContent = recusas;
+            document.getElementById('saldo-vagas').textContent = 150 - pessoas;
         };
 
         const renderTable = (records) => {
-            elements.tableBody.innerHTML = '';
+            const tbody = document.getElementById('confirmacoes-body');
+            tbody.innerHTML = '';
 
             if (!records.length) {
-                const emptyRow = document.createElement('tr');
-                emptyRow.innerHTML = '<td colspan="6" class="empty-row">Nenhuma confirmação encontrada.</td>';
-                elements.tableBody.appendChild(emptyRow);
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-row">Nenhuma confirmação encontrada.</td></tr>';
                 return;
             }
 
-            const fragment = document.createDocumentFragment();
-            records.forEach((item) => fragment.appendChild(createRow(item)));
-            elements.tableBody.appendChild(fragment);
+            const frag = document.createDocumentFragment();
+            records.forEach((r) => {
+                const tr = document.createElement('tr');
+                [
+                    r.nome || '-',
+                    String(Number(r.acompanhantes) || 0),
+                    String(Number(r.quantidade_criancas) || 0),
+                    presenceLabel(r.presenca),
+                    r.mensagem || '-',
+                    formatDate(r.criado_em)
+                ].forEach((val) => {
+                    const td = document.createElement('td');
+                    td.textContent = val;
+                    tr.appendChild(td);
+                });
+                frag.appendChild(tr);
+            });
+            tbody.appendChild(frag);
         };
 
-        const setStatus = (message, type) => {
-            elements.status.textContent = message;
-            elements.status.classList.remove('error', 'ok');
-            if (type) {
-                elements.status.classList.add(type);
-            }
+        const setStatus = (msg, type) => {
+            const el = document.getElementById('status');
+            el.textContent = msg;
+            el.className = 'status-text' + (type ? ` ${type}` : '');
         };
 
         const applyFilter = () => {
-            const term = normalizeText(elements.searchInput.value);
-            const filtered = term
-                ? allRecords.filter((item) => normalizeText(item.nome).includes(term))
-                : allRecords;
-
+            const term = normalizeText(document.getElementById('search-nome').value);
+            const filtered = term ? allRecords.filter((r) => normalizeText(r.nome).includes(term)) : allRecords;
             renderSummary(filtered);
             renderTable(filtered);
-
-            if (filtered.length !== allRecords.length) {
-                setStatus(`Mostrando ${filtered.length} de ${allRecords.length} confirmações.`, 'ok');
-            } else {
-                setStatus(`${allRecords.length} confirmações carregadas.`, 'ok');
-            }
+            setStatus(
+                filtered.length !== allRecords.length
+                    ? `Mostrando ${filtered.length} de ${allRecords.length} confirmações.`
+                    : `${allRecords.length} confirmações carregadas.`,
+                'ok'
+            );
         };
 
         const exportCsv = () => {
-            if (!allRecords.length) {
-                setStatus('Não há dados para exportar.', 'error');
-                return;
-            }
-
+            if (!allRecords.length) { setStatus('Não há dados para exportar.', 'error'); return; }
             const header = ['Nome', 'Acompanhantes', 'Crianças', 'Presença', 'Mensagem', 'Data'];
             const lines = [header.map(escapeCsv).join(';')];
-
-            allRecords.forEach((item) => {
-                lines.push([
-                    item.nome || '',
-                    Number(item.acompanhantes) || 0,
-                    Number(item.quantidade_criancas) || 0,
-                    presenceLabel(item.presenca),
-                    item.mensagem || '',
-                    formatDate(item.criado_em)
-                ].map(escapeCsv).join(';'));
-            });
-
+            allRecords.forEach((r) => lines.push([
+                r.nome || '', Number(r.acompanhantes) || 0, Number(r.quantidade_criancas) || 0,
+                presenceLabel(r.presenca), r.mensagem || '', formatDate(r.criado_em)
+            ].map(escapeCsv).join(';')));
             const blob = new Blob([`\uFEFF${lines.join('\n')}`], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            const dateTag = new Date().toISOString().slice(0, 10);
-            link.href = url;
-            link.download = `confirmacoes-${dateTag}.csv`;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `confirmacoes-${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
             URL.revokeObjectURL(url);
-
             setStatus('CSV exportado com sucesso.', 'ok');
         };
 
         const fetchConfirmacoes = async () => {
-            const endpoint = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id,criado_em,nome,acompanhantes,quantidade_criancas,presenca,mensagem&order=criado_em.desc`;
-
-            const response = await fetch(endpoint, {
-                method: 'GET',
-                headers: {
-                    apikey: SUPABASE_KEY,
-                    Authorization: `Bearer ${SUPABASE_KEY}`,
-                    'Content-Type': 'application/json'
+            const res = await fetch(
+                `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id,criado_em,nome,acompanhantes,quantidade_criancas,presenca,mensagem&order=criado_em.desc`,
+                {
+                    headers: {
+                        apikey: SUPABASE_KEY,
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(errorText || 'Falha ao carregar confirmações.');
+            );
+            if (res.status === 401) {
+                handleUnauthorized();
+                throw new Error('Sessão expirada. Faça login novamente.');
             }
-
-            return response.json();
+            if (!res.ok) throw new Error(await res.text());
+            return res.json();
         };
 
         const init = async () => {
+            setStatus('Carregando confirmações...', '');
             try {
                 const records = await fetchConfirmacoes();
                 allRecords = Array.isArray(records) ? records : [];
                 applyFilter();
-            } catch (error) {
-                console.error('Erro ao buscar confirmações:', error);
+            } catch (err) {
+                console.error(err);
+                if (err instanceof Error && err.message === 'Sessão expirada. Faça login novamente.') {
+                    return;
+                }
                 allRecords = [];
                 renderSummary([]);
                 renderTable([]);
-                setStatus('Erro ao carregar confirmações. Verifique a conexão com o Supabase.', 'error');
+                setStatus('Erro ao carregar confirmações.', 'error');
             }
         };
 
-        elements.searchInput.addEventListener('input', applyFilter);
-        elements.exportButton.addEventListener('click', exportCsv);
+        document.getElementById('search-nome').addEventListener('input', applyFilter);
+        document.getElementById('export-csv').addEventListener('click', exportCsv);
 
-        init();
+        if (accessToken) {
+            showAdmin();
+            init();
+        } else {
+            showLogin();
+        }
     </script>
 </body>
 
