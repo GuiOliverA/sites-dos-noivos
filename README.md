@@ -9,7 +9,7 @@
 (Ainda não finalizado)
 Site de casamento desenvolvido para o casamento de Guilherme e Taine, marcado para 30 de maio de 2026 na Chácara Laggus, Campo Largo - PR.
 
-(Link:) [sites-dos-noivos.vercel.app]
+[[link](https://sites-dos-noivos.vercel.app/)]
 
 ## Sobre o projeto
 Single Page Application estática com as seções:
