@@ -1,18 +1,39 @@
 const SUPABASE_URL = 'https://tummmtcgxaxhmdnclsxd.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_Hy43AwFo5rkRMwxABp8MQw_SBl9S2rr';
 const TABLE_NAME = 'confirmacoes';
+const GUESTS_TABLE_NAME = 'convidados';
 
 const form = document.getElementById('form-rsvp');
 const statusElement = document.getElementById('rsvp-status');
 const submitButton = form ? form.querySelector('[type="submit"]') : null;
 
-const showToast = (name) => {
+const showToast = (name, presence = 'sim') => {
     const toast = document.getElementById('rsvp-toast');
+    const icon = toast ? toast.querySelector('.rsvp-toast__icon') : null;
+    const title = toast ? toast.querySelector('.rsvp-toast__title') : null;
     const sub = document.getElementById('rsvp-toast-sub');
     if (!toast) return;
 
+    const isDeclined = String(presence || '').trim().toLowerCase() === 'nao';
+
+    toast.classList.remove('rsvp-toast--declined');
+
+    if (icon) {
+        icon.textContent = isDeclined ? '!' : '✓';
+    }
+
+    if (title) {
+        title.textContent = isDeclined ? 'Ausência informada' : 'Presença confirmada!';
+    }
+
     if (sub) {
-        sub.textContent = name ? `Até breve, ${name}!` : 'Até breve!';
+        sub.textContent = isDeclined
+            ? (name ? `${name}, agradecemos por nos avisar.` : 'Agradecemos por nos avisar.')
+            : (name ? `Até breve, ${name}!` : 'Até breve!');
+    }
+
+    if (isDeclined) {
+        toast.classList.add('rsvp-toast--declined');
     }
 
     clearTimeout(toast._timer);
@@ -49,6 +70,97 @@ const createPayload = (formData, includePresence = true) => {
     }
 
     return payload;
+};
+
+const normalizeName = (value) => String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const levenshteinDistance = (source, target) => {
+    const a = normalizeName(source);
+    const b = normalizeName(target);
+
+    if (!a) return b.length;
+    if (!b) return a.length;
+
+    const matrix = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+
+    for (let i = 0; i <= a.length; i += 1) {
+        matrix[i][0] = i;
+    }
+
+    for (let j = 0; j <= b.length; j += 1) {
+        matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= a.length; i += 1) {
+        for (let j = 1; j <= b.length; j += 1) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            matrix[i][j] = Math.min(
+                matrix[i - 1][j] + 1,
+                matrix[i][j - 1] + 1,
+                matrix[i - 1][j - 1] + cost
+            );
+        }
+    }
+
+    return matrix[a.length][b.length];
+};
+
+const fetchGuests = async () => {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/${GUESTS_TABLE_NAME}?select=id,nome`, {
+        method: 'GET',
+        headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Falha ao verificar lista de convidados.');
+    }
+
+    const guests = await response.json();
+    return Array.isArray(guests) ? guests : [];
+};
+
+const findGuestMatch = async (guestName) => {
+    const normalizedGuestName = normalizeName(guestName);
+
+    if (!normalizedGuestName) {
+        return null;
+    }
+
+    const guests = await fetchGuests();
+    let bestMatch = null;
+
+    guests.forEach((guest) => {
+        const currentName = normalizeName(guest?.nome);
+
+        if (!currentName) {
+            return;
+        }
+
+        const distance = levenshteinDistance(normalizedGuestName, currentName);
+        if (distance > 3) {
+            return;
+        }
+
+        if (!bestMatch || distance < bestMatch.distance) {
+            bestMatch = {
+                ...guest,
+                distance
+            };
+        }
+    });
+
+    return bestMatch;
 };
 
 const sendConfirmation = async (payload) => {
@@ -88,12 +200,22 @@ if (form) {
             return;
         }
 
-        if (submitButton) {
-            submitButton.disabled = true;
-        }
-        setStatus('Enviando confirmação...', '');
-
         try {
+            setStatus('Verificando sua presença na lista...', '');
+
+            const matchedGuest = await findGuestMatch(payload.nome);
+            if (!matchedGuest || matchedGuest.id == null) {
+                setStatus('Hmm, não encontramos seu nome por aqui. Se você recebeu um convite, entre em contato com os noivos antes de confirmar. 💌', 'error');
+                return;
+            }
+
+            payload.convidado_id = matchedGuest.id;
+
+            if (submitButton) {
+                submitButton.disabled = true;
+            }
+            setStatus('Enviando confirmação...', '');
+
             try {
                 await sendConfirmation(payload);
             } catch (error) {
@@ -102,13 +224,15 @@ if (form) {
                     throw error;
                 }
 
-                await sendConfirmation(createPayload(formData, false));
+                const fallbackPayload = createPayload(formData, false);
+                fallbackPayload.convidado_id = matchedGuest.id;
+                await sendConfirmation(fallbackPayload);
                 console.warn('A coluna presenca nao existe em confirmacoes. A confirmacao foi salva sem esse campo.');
             }
 
             form.reset();
             setStatus('Informações enviadas com sucesso!', 'success');
-            showToast(payload.nome);
+            showToast(payload.nome, payload.presenca);
         } catch (error) {
             setStatus('Não foi possível enviar agora. Tente novamente em instantes.', 'error');
             console.error('Erro RSVP:', error);

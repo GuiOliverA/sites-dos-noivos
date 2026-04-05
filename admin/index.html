@@ -204,6 +204,44 @@
             opacity: 0.75;
         }
 
+        .admin-tabs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        .admin-tab-button {
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .admin-tab-button:hover {
+            border-color: var(--gold);
+            transform: translateY(-1px);
+        }
+
+        .admin-tab-button.is-active {
+            background: var(--gold);
+            color: var(--navy);
+            border-color: var(--gold);
+        }
+
+        .admin-tab-panel {
+            display: none;
+        }
+
+        .admin-tab-panel.is-active {
+            display: block;
+        }
+
         /* summary cards */
         .summary-grid {
             display: grid;
@@ -339,6 +377,78 @@
             padding: 2rem !important;
         }
 
+        .guest-form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .guest-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.85rem;
+        }
+
+        .guest-field label {
+            display: block;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--slate);
+            margin-bottom: 0.35rem;
+        }
+
+        .guest-field input {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border-radius: 6px;
+            border: 1px solid rgba(143, 163, 186, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--white);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .guest-field input:focus {
+            border-color: var(--gold);
+        }
+
+        .guest-field input::placeholder {
+            color: var(--slate);
+        }
+
+        .btn-add {
+            justify-self: start;
+            padding: 0.7rem 1.1rem;
+            border-radius: 6px;
+            border: 1px solid var(--gold);
+            background: var(--gold);
+            color: var(--navy);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-add:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .btn-delete {
+            padding: 0.45rem 0.8rem;
+            border-radius: 6px;
+            border: 1px solid rgba(240, 149, 149, 0.45);
+            background: rgba(163, 45, 45, 0.12);
+            color: #f8c2c2;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            background: rgba(163, 45, 45, 0.24);
+        }
+
         @media (max-width: 640px) {
             .summary-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -390,51 +500,107 @@
                 </div>
             </header>
 
-            <section class="summary-grid" aria-label="Resumo das confirmações">
-                <article class="summary-card">
-                    <p class="summary-label">Confirmados (Sim)</p>
-                    <p id="total-confirmacoes" class="summary-number">0</p>
-                </article>
-                <article class="summary-card">
-                    <p class="summary-label">Total de convidados</p>
-                    <p id="total-pessoas" class="summary-number">0</p>
-                </article>
-                <article class="summary-card">
-                    <p class="summary-label">Total de crianças</p>
-                    <p id="total-criancas" class="summary-number">0</p>
-                </article>
-                <article class="summary-card">
-                    <p class="summary-label">Recusas (Não)</p>
-                    <p id="total-recusas" class="summary-number">0</p>
-                </article>
-                <article class="summary-card summary-card--wide">
-                    <p class="summary-label">Saldo de vagas (limite 150)</p>
-                    <p id="saldo-vagas" class="summary-number">150</p>
-                    <p class="summary-note">Crianças até 5 anos não contabilizadas no limite</p>
-                </article>
+            <nav class="admin-tabs" aria-label="Seções do painel">
+                <button class="admin-tab-button is-active" type="button" data-tab-target="confirmacoes"
+                    aria-selected="true">Confirmações</button>
+                <button class="admin-tab-button" type="button" data-tab-target="convidados" aria-selected="false">Lista
+                    de Convidados</button>
+            </nav>
+
+            <section id="tab-confirmacoes" class="admin-tab-panel is-active" data-tab-panel="confirmacoes">
+                <section class="summary-grid" aria-label="Resumo das confirmações">
+                    <article class="summary-card">
+                        <p class="summary-label">Confirmados (Sim)</p>
+                        <p id="total-confirmacoes" class="summary-number">0</p>
+                    </article>
+                    <article class="summary-card">
+                        <p class="summary-label">Total de convidados</p>
+                        <p id="total-pessoas" class="summary-number">0</p>
+                    </article>
+                    <article class="summary-card">
+                        <p class="summary-label">Total de crianças</p>
+                        <p id="total-criancas" class="summary-number">0</p>
+                    </article>
+                    <article class="summary-card">
+                        <p class="summary-label">Recusas (Não)</p>
+                        <p id="total-recusas" class="summary-number">0</p>
+                    </article>
+                    <article class="summary-card summary-card--wide">
+                        <p class="summary-label">Saldo de vagas (limite 150)</p>
+                        <p id="saldo-vagas" class="summary-number">150</p>
+                        <p class="summary-note">Crianças até 6 anos não contabilizadas no limite</p>
+                    </article>
+                </section>
+
+                <section class="table-panel">
+                    <div class="table-toolbar">
+                        <label for="search-nome">Buscar por nome</label>
+                        <input id="search-nome" type="search" placeholder="Digite o nome..." autocomplete="off">
+                    </div>
+                    <p id="status" class="status-text" role="status" aria-live="polite">Carregando confirmações...</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Acompanhantes</th>
+                                    <th>Crianças</th>
+                                    <th>Presença</th>
+                                    <th>Mensagem</th>
+                                    <th>Data</th>
+                                </tr>
+                            </thead>
+                            <tbody id="confirmacoes-body"></tbody>
+                        </table>
+                    </div>
+                </section>
             </section>
 
-            <section class="table-panel">
-                <div class="table-toolbar">
-                    <label for="search-nome">Buscar por nome</label>
-                    <input id="search-nome" type="search" placeholder="Digite o nome..." autocomplete="off">
-                </div>
-                <p id="status" class="status-text" role="status" aria-live="polite">Carregando confirmações...</p>
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Acompanhantes</th>
-                                <th>Crianças</th>
-                                <th>Presença</th>
-                                <th>Mensagem</th>
-                                <th>Data</th>
-                            </tr>
-                        </thead>
-                        <tbody id="confirmacoes-body"></tbody>
-                    </table>
-                </div>
+            <section id="tab-convidados" class="admin-tab-panel" data-tab-panel="convidados" hidden>
+                <section class="summary-grid" aria-label="Resumo da lista de convidados">
+                    <article class="summary-card">
+                        <p class="summary-label">Convidados cadastrados</p>
+                        <p id="total-convidados-cadastrados" class="summary-number">0</p>
+                    </article>
+                    <article class="summary-card summary-card--wide">
+                        <p class="summary-label">Cadastro manual</p>
+                        <p class="summary-note">Adicione convidados e gerencie a lista diretamente por aqui.</p>
+                    </article>
+                </section>
+
+                <section class="table-panel">
+                    <form id="guest-form" class="guest-form">
+                        <div class="guest-form-grid">
+                            <div class="guest-field">
+                                <label for="guest-name">Nome completo</label>
+                                <input id="guest-name" name="guest-name" type="text" placeholder="Nome do convidado"
+                                    autocomplete="off" required>
+                            </div>
+                            <div class="guest-field">
+                                <label for="guest-limit">Número limite de acompanhantes</label>
+                                <input id="guest-limit" name="guest-limit" type="number" min="0" step="1"
+                                    placeholder="0">
+                            </div>
+                        </div>
+                        <button id="btn-add-guest" class="btn-add" type="submit">Adicionar Convidado</button>
+                    </form>
+
+                    <p id="guest-status" class="status-text" role="status" aria-live="polite">Carregando convidados...
+                    </p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Acompanhantes permitidos</th>
+                                    <th>Data de cadastro</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="guests-body"></tbody>
+                        </table>
+                    </div>
+                </section>
             </section>
         </main>
     </div>
@@ -443,6 +609,7 @@
         const SUPABASE_URL = 'https://tummmtcgxaxhmdnclsxd.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1bW1tdGNneGF4aG1kbmNsc3hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTgwNTIsImV4cCI6MjA5MDA3NDA1Mn0.PlQ04X0blB9Au-Ojz5yT7UR6Ey31_wyJgTBxsa7Da1w';
         const TABLE_NAME = 'confirmacoes';
+        const GUESTS_TABLE_NAME = 'convidados';
         const ADMIN_ACCESS_TOKEN_KEY = 'admin_access_token';
 
         const loginScreen = document.getElementById('login-screen');
@@ -452,6 +619,15 @@
         const btnLogin = document.getElementById('btn-login');
         const loginError = document.getElementById('login-error');
         const btnLogout = document.getElementById('btn-logout');
+        const tabButtons = Array.from(document.querySelectorAll('.admin-tab-button'));
+        const tabPanels = Array.from(document.querySelectorAll('.admin-tab-panel'));
+        const guestForm = document.getElementById('guest-form');
+        const guestNameInput = document.getElementById('guest-name');
+        const guestLimitInput = document.getElementById('guest-limit');
+        const btnAddGuest = document.getElementById('btn-add-guest');
+        const guestsBody = document.getElementById('guests-body');
+        const guestStatusElement = document.getElementById('guest-status');
+        const guestCountElement = document.getElementById('total-convidados-cadastrados');
 
         let accessToken = sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY);
 
@@ -466,6 +642,7 @@
             loginError.textContent = '';
             loginScreen.style.display = 'none';
             adminScreen.style.display = 'block';
+            switchTab(currentTab);
         };
 
         const clearAdminSession = () => {
@@ -476,8 +653,12 @@
         const handleUnauthorized = () => {
             clearAdminSession();
             allRecords = [];
+            allGuests = [];
             renderSummary([]);
             renderTable([]);
+            renderGuestsSummary([]);
+            renderGuestsTable([]);
+            setGuestStatus('Sessão expirada. Faça login novamente.', 'error');
             showLogin('Sessão expirada. Faça login novamente.');
         };
 
@@ -542,6 +723,23 @@
 
         // ── DADOS ──
         let allRecords = [];
+        let allGuests = [];
+        let currentTab = 'confirmacoes';
+
+        const switchTab = (tabName) => {
+            currentTab = tabName;
+            tabButtons.forEach((button) => {
+                const isActive = button.dataset.tabTarget === tabName;
+                button.classList.toggle('is-active', isActive);
+                button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            tabPanels.forEach((panel) => {
+                const isActive = panel.dataset.tabPanel === tabName;
+                panel.classList.toggle('is-active', isActive);
+                panel.hidden = !isActive;
+            });
+        };
 
         const normalizeText = (v) =>
             String(v || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -554,6 +752,20 @@
             return isNaN(d) ? '-' : new Intl.DateTimeFormat('pt-BR', {
                 dateStyle: 'short', timeZone: 'America/Sao_Paulo'
             }).format(d);
+        };
+
+        const getGuestLimitValue = (guest) => {
+            const rawValue = guest?.limite_acompanhantes
+                ?? guest?.acompanhantes_permitidos
+                ?? guest?.numero_limite_acompanhantes
+                ?? guest?.limite_de_acompanhantes;
+
+            if (rawValue === null || rawValue === undefined || rawValue === '') {
+                return '0';
+            }
+
+            const numericValue = Number(rawValue);
+            return Number.isFinite(numericValue) ? String(Math.max(0, numericValue)) : String(rawValue);
         };
 
         const presenceLabel = (v) => {
@@ -647,6 +859,133 @@
             setStatus('CSV exportado com sucesso.', 'ok');
         };
 
+        const setGuestStatus = (msg, type) => {
+            if (!guestStatusElement) return;
+            guestStatusElement.textContent = msg;
+            guestStatusElement.className = 'status-text' + (type ? ` ${type}` : '');
+        };
+
+        const renderGuestsSummary = (guests) => {
+            if (guestCountElement) {
+                guestCountElement.textContent = Array.isArray(guests) ? guests.length : 0;
+            }
+        };
+
+        const renderGuestsTable = (guests) => {
+            if (!guestsBody) return;
+            guestsBody.innerHTML = '';
+
+            if (!guests.length) {
+                guestsBody.innerHTML = '<tr><td colspan="4" class="empty-row">Nenhum convidado cadastrado.</td></tr>';
+                return;
+            }
+
+            const frag = document.createDocumentFragment();
+            guests.forEach((guest) => {
+                const tr = document.createElement('tr');
+
+                [
+                    guest.nome || '-',
+                    getGuestLimitValue(guest),
+                    formatDate(guest.criado_em)
+                ].forEach((value) => {
+                    const td = document.createElement('td');
+                    td.textContent = value;
+                    tr.appendChild(td);
+                });
+
+                const actionsTd = document.createElement('td');
+                const deleteButton = document.createElement('button');
+                deleteButton.type = 'button';
+                deleteButton.className = 'btn-delete';
+                deleteButton.dataset.deleteId = guest.id;
+                deleteButton.dataset.guestName = guest.nome || 'este convidado';
+                deleteButton.textContent = 'Excluir';
+                actionsTd.appendChild(deleteButton);
+                tr.appendChild(actionsTd);
+
+                frag.appendChild(tr);
+            });
+
+            guestsBody.appendChild(frag);
+        };
+
+        const fetchGuests = async () => {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/${GUESTS_TABLE_NAME}?select=*&order=nome.asc`, {
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (res.status === 401) {
+                handleUnauthorized();
+                throw new Error('Sessão expirada. Faça login novamente.');
+            }
+
+            if (!res.ok) throw new Error(await res.text());
+            return res.json();
+        };
+
+        const createGuest = async (guestName, companionLimit) => {
+            const trimmedName = guestName.trim();
+            const payload = { nome: trimmedName };
+
+            if (companionLimit !== '') {
+                payload.acompanhantes_permitidos = Math.max(0, Number(companionLimit) || 0);
+            }
+
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/${GUESTS_TABLE_NAME}`, {
+                method: 'POST',
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                    Prefer: 'return=minimal'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.status === 401) {
+                handleUnauthorized();
+                throw new Error('Sessão expirada. Faça login novamente.');
+            }
+
+            if (!res.ok) {
+                throw new Error(await res.text() || 'Erro ao adicionar convidado.');
+            }
+        };
+
+        const deleteGuest = async (guestId) => {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/${GUESTS_TABLE_NAME}?id=eq.${encodeURIComponent(guestId)}`, {
+                method: 'DELETE',
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                    Prefer: 'return=minimal'
+                }
+            });
+
+            if (res.status === 401) {
+                handleUnauthorized();
+                throw new Error('Sessão expirada. Faça login novamente.');
+            }
+
+            if (!res.ok) {
+                throw new Error(await res.text());
+            }
+        };
+
+        const loadGuests = async () => {
+            setGuestStatus('Carregando convidados...', '');
+            const guests = await fetchGuests();
+            allGuests = Array.isArray(guests) ? guests : [];
+            renderGuestsSummary(allGuests);
+            renderGuestsTable(allGuests);
+            setGuestStatus(`${allGuests.length} convidados cadastrados.`, 'ok');
+        };
+
         const fetchConfirmacoes = async () => {
             const res = await fetch(
                 `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id,criado_em,nome,acompanhantes,quantidade_criancas,presenca,mensagem&order=criado_em.desc`,
@@ -668,13 +1007,16 @@
 
         const init = async () => {
             setStatus('Carregando confirmações...', '');
-            try {
-                const records = await fetchConfirmacoes();
-                allRecords = Array.isArray(records) ? records : [];
+            setGuestStatus('Carregando convidados...', '');
+
+            const [recordsResult, guestsResult] = await Promise.allSettled([fetchConfirmacoes(), fetchGuests()]);
+
+            if (recordsResult.status === 'fulfilled') {
+                allRecords = Array.isArray(recordsResult.value) ? recordsResult.value : [];
                 applyFilter();
-            } catch (err) {
-                console.error(err);
-                if (err instanceof Error && err.message === 'Sessão expirada. Faça login novamente.') {
+            } else {
+                console.error(recordsResult.reason);
+                if (recordsResult.reason instanceof Error && recordsResult.reason.message === 'Sessão expirada. Faça login novamente.') {
                     return;
                 }
                 allRecords = [];
@@ -682,7 +1024,97 @@
                 renderTable([]);
                 setStatus('Erro ao carregar confirmações.', 'error');
             }
+
+            if (guestsResult.status === 'fulfilled') {
+                allGuests = Array.isArray(guestsResult.value) ? guestsResult.value : [];
+                renderGuestsSummary(allGuests);
+                renderGuestsTable(allGuests);
+                setGuestStatus(`${allGuests.length} convidados cadastrados.`, 'ok');
+            } else {
+                console.error(guestsResult.reason);
+                if (guestsResult.reason instanceof Error && guestsResult.reason.message === 'Sessão expirada. Faça login novamente.') {
+                    return;
+                }
+                allGuests = [];
+                renderGuestsSummary([]);
+                renderGuestsTable([]);
+                setGuestStatus('Erro ao carregar convidados.', 'error');
+            }
         };
+
+        tabButtons.forEach((button) => {
+            button.addEventListener('click', () => switchTab(button.dataset.tabTarget));
+        });
+
+        if (guestForm) {
+            guestForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const guestName = guestNameInput ? guestNameInput.value.trim() : '';
+                const companionLimit = guestLimitInput ? guestLimitInput.value.trim() : '';
+
+                if (!guestName) {
+                    setGuestStatus('Informe o nome completo do convidado.', 'error');
+                    guestNameInput?.focus();
+                    return;
+                }
+
+                if (btnAddGuest) {
+                    btnAddGuest.disabled = true;
+                    btnAddGuest.textContent = 'Adicionando...';
+                }
+
+                setGuestStatus('Adicionando convidado...', '');
+
+                try {
+                    await createGuest(guestName, companionLimit);
+                    guestForm.reset();
+                    await loadGuests();
+                    setGuestStatus('Convidado adicionado com sucesso.', 'ok');
+                } catch (err) {
+                    console.error(err);
+                    if (err instanceof Error && err.message === 'Sessão expirada. Faça login novamente.') {
+                        return;
+                    }
+                    setGuestStatus('Não foi possível adicionar o convidado.', 'error');
+                } finally {
+                    if (btnAddGuest) {
+                        btnAddGuest.disabled = false;
+                        btnAddGuest.textContent = 'Adicionar Convidado';
+                    }
+                }
+            });
+        }
+
+        if (guestsBody) {
+            guestsBody.addEventListener('click', async (event) => {
+                const button = event.target.closest('[data-delete-id]');
+                if (!button) return;
+
+                const guestId = button.dataset.deleteId;
+                const guestName = button.dataset.guestName || 'este convidado';
+
+                if (!guestId || !window.confirm(`Excluir ${guestName}? Esta ação também removerá a confirmação vinculada.`)) {
+                    return;
+                }
+
+                button.disabled = true;
+                setGuestStatus('Excluindo convidado...', '');
+
+                try {
+                    await deleteGuest(guestId);
+                    await loadGuests();
+                    setGuestStatus('Convidado excluído com sucesso.', 'ok');
+                } catch (err) {
+                    console.error(err);
+                    if (err instanceof Error && err.message === 'Sessão expirada. Faça login novamente.') {
+                        return;
+                    }
+                    setGuestStatus('Não foi possível excluir o convidado.', 'error');
+                    button.disabled = false;
+                }
+            });
+        }
 
         document.getElementById('search-nome').addEventListener('input', applyFilter);
         document.getElementById('export-csv').addEventListener('click', exportCsv);

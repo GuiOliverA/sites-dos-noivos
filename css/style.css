@@ -164,7 +164,7 @@ h2 {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(rgba(20, 30, 50, 0.45), rgba(20, 30, 50, 0.45)), url("../assets/images/teste-hero.jpg");
+    background: linear-gradient(rgba(20, 30, 50, 0.45), rgba(20, 30, 50, 0.45)), url("../assets/images/noivos-teste1.jpg");
     background-size: cover;
     background-position: center top;
     background-attachment: fixed;
@@ -567,6 +567,23 @@ h2 {
     margin-top: 0.15rem;
 }
 
+.rsvp-toast--declined {
+    border-left-color: #c75a5a;
+}
+
+.rsvp-toast--declined .rsvp-toast__icon {
+    background: #fdecec;
+    color: #a32d2d;
+}
+
+.rsvp-toast--declined .rsvp-toast__title {
+    color: #8f2222;
+}
+
+.rsvp-toast--declined .rsvp-toast__sub {
+    color: #b55d5d;
+}
+
 .section-gifts {
     position: relative;
 }
@@ -874,9 +891,26 @@ h2 {
     margin-bottom: 0.7rem;
 }
 
+.footer-contact {
+    display: grid;
+    gap: 0.85rem;
+    justify-items: center;
+}
+
+.footer-contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
 .contact {
     color: var(--silver);
     font-size: 0.92rem;
+}
+
+.contact--secondary {
+    font-size: 0.88rem;
 }
 
 .contact a {
@@ -887,6 +921,52 @@ h2 {
 .contact a:hover,
 .contact a:focus-visible {
     text-decoration: underline;
+}
+
+.whatsapp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.78rem 1rem;
+    min-height: 48px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    font-size: 0.92rem;
+    font-weight: 700;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.whatsapp-chip:hover,
+.whatsapp-chip:focus-visible {
+    background: var(--white);
+    color: var(--deep-blue);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.whatsapp-chip__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--white);
+    color: var(--deep-blue);
+    flex-shrink: 0;
+}
+
+.whatsapp-chip:hover .whatsapp-chip__icon,
+.whatsapp-chip:focus-visible .whatsapp-chip__icon {
+    background: var(--deep-blue);
+    color: var(--white);
+}
+
+.whatsapp-chip__icon svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
 }
 
 .lightbox {
