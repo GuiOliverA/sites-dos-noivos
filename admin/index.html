@@ -434,20 +434,6 @@
             cursor: not-allowed;
         }
 
-        .btn-delete {
-            padding: 0.45rem 0.8rem;
-            border-radius: 6px;
-            border: 1px solid rgba(240, 149, 149, 0.45);
-            background: rgba(163, 45, 45, 0.12);
-            color: #f8c2c2;
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-delete:hover {
-            background: rgba(163, 45, 45, 0.24);
-        }
 
         @media (max-width: 640px) {
             .summary-grid {
@@ -894,15 +880,6 @@
                     tr.appendChild(td);
                 });
 
-                const actionsTd = document.createElement('td');
-                const deleteButton = document.createElement('button');
-                deleteButton.type = 'button';
-                deleteButton.className = 'btn-delete';
-                deleteButton.dataset.deleteId = guest.id;
-                deleteButton.dataset.guestName = guest.nome || 'este convidado';
-                deleteButton.textContent = 'Excluir';
-                actionsTd.appendChild(deleteButton);
-                tr.appendChild(actionsTd);
 
                 frag.appendChild(tr);
             });
@@ -912,6 +889,7 @@
 
         const fetchGuests = async () => {
             const res = await fetch(`${SUPABASE_URL}/rest/v1/${GUESTS_TABLE_NAME}?select=*&order=nome.asc`, {
+                cache: 'no-store',
                 headers: {
                     apikey: SUPABASE_KEY,
                     'Content-Type': 'application/json'
@@ -956,26 +934,6 @@
             }
         };
 
-        const deleteGuest = async (guestId) => {
-            const res = await fetch(`${SUPABASE_URL}/rest/v1/${GUESTS_TABLE_NAME}?id=eq.${encodeURIComponent(guestId)}`, {
-                method: 'DELETE',
-                headers: {
-                    apikey: SUPABASE_KEY,
-                    Authorization: `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
-                    Prefer: 'return=minimal'
-                }
-            });
-
-            if (res.status === 401) {
-                handleUnauthorized();
-                throw new Error('Sessão expirada. Faça login novamente.');
-            }
-
-            if (!res.ok) {
-                throw new Error(await res.text());
-            }
-        };
 
         const loadGuests = async () => {
             setGuestStatus('Carregando convidados...', '');
@@ -1086,35 +1044,6 @@
             });
         }
 
-        if (guestsBody) {
-            guestsBody.addEventListener('click', async (event) => {
-                const button = event.target.closest('[data-delete-id]');
-                if (!button) return;
-
-                const guestId = button.dataset.deleteId;
-                const guestName = button.dataset.guestName || 'este convidado';
-
-                if (!guestId || !window.confirm(`Excluir ${guestName}? Esta ação também removerá a confirmação vinculada.`)) {
-                    return;
-                }
-
-                button.disabled = true;
-                setGuestStatus('Excluindo convidado...', '');
-
-                try {
-                    await deleteGuest(guestId);
-                    await loadGuests();
-                    setGuestStatus('Convidado excluído com sucesso.', 'ok');
-                } catch (err) {
-                    console.error(err);
-                    if (err instanceof Error && err.message === 'Sessão expirada. Faça login novamente.') {
-                        return;
-                    }
-                    setGuestStatus('Não foi possível excluir o convidado.', 'error');
-                    button.disabled = false;
-                }
-            });
-        }
 
         document.getElementById('search-nome').addEventListener('input', applyFilter);
         document.getElementById('export-csv').addEventListener('click', exportCsv);
