@@ -8,15 +8,19 @@
     <title> Guilherme & Taine | Casamento</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&family=Manrope:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="preload" as="image" href="assets/images/noivos-teste1.jpg" fetchpriority="high">
 
-    <link rel="manifest" href="../site.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+
+    <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#f5f0ea">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -33,10 +37,10 @@
             <ul class="nav-links" id="main-menu">
                 <li><a href="#hero">Início</a></li>
                 <li><a href="#o-dia">Local</a></li>
-                <li><a href="#galeria">Noivos</a></li>
-                <li><a href="#rsvp">Confirmação</a></li>
+                <li><a href="#historia">História</a></li>
+                <li><a href="#galeria">Fotos</a></li>
                 <li><a href="#presentes">Presentes</a></li>
-                <li><a href="#footer">Contato</a></li>
+                <li><a class="nav-rsvp" href="#rsvp">Confirmar presença</a></li>
             </ul>
         </nav>
     </header>
@@ -45,9 +49,19 @@
         <section id="hero" class="hero">
             <div class="hero-overlay"></div>
             <div class="container hero-content reveal">
-                <p class="hero-kicker">Save the Date</p>
+                <p class="hero-kicker"><span>✦</span> Save the Date <span>✦</span></p>
                 <h1>Guilherme <span class="ampersand">&amp;</span> Taine</h1>
-                <p class="hero-date">30 . 05 . 2026</p>
+                <p class="hero-date hero-date-badge">
+                    <strong>30.05.2026</strong>
+                </p>
+
+                <div class="hero-actions" aria-label="Ações principais do convite">
+                    <a class="hero-btn hero-btn--primary" href="#rsvp">Confirmar presença</a>
+                    <a class="hero-btn hero-btn--secondary"
+                        href="https://maps.google.com/?q=Chacara+Laggus+Campo+Largo+PR" target="_blank"
+                        rel="noopener noreferrer">Como chegar</a>
+                    <a class="hero-btn hero-btn--secondary" href="#presentes">Lista de presentes</a>
+                </div>
 
                 <div class="countdown" aria-label="Contagem regressiva para o casamento">
                     <div class="countdown-item">
@@ -79,7 +93,8 @@
 
                 <div class="day-grid">
                     <article class="info-card">
-                        <img src="assets/images/Chacará Laggus.jpeg" alt="Local da cerimônia" class="info-card-image">
+                        <img src="assets/images/Chacará Laggus.jpeg" alt="Local da cerimônia" class="info-card-image"
+                            loading="lazy" decoding="async" fetchpriority="low">
                         <div class="info-card-content">
                             <h3>Cerimônia</h3>
                             <p class="time">14h</p>
@@ -92,39 +107,97 @@
             </div>
         </section>
 
+        <section id="historia" class="section section-story">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Nossa história</p>
+                    <h2>Quatro capítulos até o nosso "sim"</h2>
+                    <p class="section-intro">Entre conversas, risadas e sonhos em comum, fomos escrevendo uma história
+                        que agora queremos celebrar com você.</p>
+                </div>
+
+                <div class="story-timeline" aria-label="Linha do tempo da história do casal">
+                    <article class="story-card reveal delay-1">
+                        <span class="story-step">01 · Como nos conhecemos</span>
+                        <h3>O começo de tudo</h3>
+                        <p>Nos conhecemos na nossa igreja, O Alvo Church, servindo juntos no Jantar Invisíveis. Entre
+                            escalas, um copo da
+                            felicidade e um doce, a conversa fluiu... e o interesse também.</p>
+                    </article>
+
+                    <article class="story-card reveal delay-2">
+                        <span class="story-step">02 · Primeiro encontro</span>
+                        <h3>Frio na barriga, conversa leve</h3>
+                        <p>Começou com doces, evoluiu para rosas e culminou no nosso primeiro passeio juntos. Muitas
+                            risadas, muito carinho e a
+                            descoberta de que somos mais parecidos do que pensávamos.</p>
+                    </article>
+
+                    <article class="story-card reveal delay-3">
+                        <span class="story-step">03 · Momento marcante</span>
+                        <h3>Quando a certeza cresceu</h3>
+                        <p>Com o profundo desejo de viver o propósito do Senhor juntos, cada um encontrou a certeza à sua maneira. Ela me viu
+                        servir ao Senhor e soube. Eu soube numa conversa honesta sobre quem somos, quando perguntei se ela queria fazer dar
+                        certo, o sim dela selou tudo.</p>
+                    </article>
+
+                    <article class="story-card reveal delay-4">
+                        <span class="story-step">04 · Pedido de casamento</span>
+                        <h3>O nosso “sim” começou ali</h3>
+                        <p>Começamos o ano de 2026 com o momento que todos ao redor já esperavam. Na virada, cercado de nossos líderes, diáconos e
+                        amigos, caminhei nervoso até ela e o pedido foi feito. A alegria que explodiu naquele momento foi maior do que qualquer
+                        planejamento poderia prever.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
         <section id="galeria" class="section section-gallery">
             <div class="container reveal">
                 <div class="section-heading">
                     <p class="eyebrow">Pré-Wedding</p>
                     <h2>Nosso momento</h2>
+                    <p class="section-intro">Um pedacinho da nossa caminhada até aqui, em imagens que guardam carinho,
+                        leveza e expectativa pelo grande dia.</p>
                 </div>
 
                 <div class="gallery-grid">
-                    <button class="gallery-item" data-full="assets/images/noivos-teste1.jpg"
+                    <button class="gallery-item" type="button" data-full="assets/images/noivos-teste1.jpg"
                         data-caption="Um dia de sol e promessas.">
-                        <img src="assets/images/noivos-teste1.jpg" alt="Guilherme e Taine em um jardim">
+                        <img src="assets/images/noivos-teste1.jpg" alt="Guilherme e Taine em um jardim" loading="lazy"
+                            decoding="async" fetchpriority="low">
                     </button>
                     <button class="gallery-item" data-full="assets/images/noivos-teste2.jpg"
                         data-caption="A leveza dos nossos encontros.">
-                        <img src="assets/images/noivos-teste2.jpg" alt="Guilherme e Taine em um momento romântico">
+                        <img src="assets/images/noivos-teste2.jpg" alt="Guilherme e Taine em um momento romântico"
+                            loading="lazy" decoding="async" fetchpriority="low">
                     </button>
-                    <button class="gallery-item" data-full="assets/images/noivos-teste3.jpg"
+                    <button class="gallery-item" type="button" data-full="assets/images/noivos-teste3.jpg"
                         data-caption="Nossa história em detalhes.">
-                        <img src="assets/images/noivos-teste3.jpg" alt="Guilherme e Taine olhando para o horizonte">
+                        <img src="assets/images/noivos-teste3.jpg" alt="Guilherme e Taine olhando para o horizonte"
+                            loading="lazy" decoding="async" fetchpriority="low">
                     </button>
-                    <button class="gallery-item" data-full="assets/images/noivos-teste4.jpg"
+                    <button class="gallery-item" type="button" data-full="assets/images/noivos-teste4.jpg"
                         data-caption="O começo de um para sempre.">
-                        <img src="assets/images/noivos-teste4.jpg" alt="Guilherme e Taine sorrindo juntos">
+                        <img src="assets/images/noivos-teste4.jpg" alt="Guilherme e Taine sorrindo juntos" loading="lazy"
+                            decoding="async" fetchpriority="low">
                     </button>
-                    <button class="gallery-item" data-full="assets/images/noivos-teste1.jpg"
+                    <button class="gallery-item" type="button" data-full="assets/images/noivos-teste1.jpg"
                         data-caption="Cada capítulo nos trouxe até aqui.">
-                        <img src="assets/images/noivos-teste1.jpg" alt="Guilherme e Taine em momento de carinho">
+                        <img src="assets/images/noivos-teste1.jpg" alt="Guilherme e Taine em momento de carinho" loading="lazy"
+                            decoding="async" fetchpriority="low">
                     </button>
-                    <button class="gallery-item" data-full="assets/images/noivos-teste2.jpg"
+                    <button class="gallery-item" type="button" data-full="assets/images/noivos-teste2.jpg"
                         data-caption="Prontos para dizer sim.">
                         <img src="assets/images/noivos-teste2.jpg"
-                            alt="Guilherme e Taine abraçados em clima de romance">
+                            alt="Guilherme e Taine abraçados em clima de romance" loading="lazy" decoding="async"
+                            fetchpriority="low">
                     </button>
+                </div>
+
+                <div class="gallery-cta reveal">
+                    <p>Já sabe que vai viver esse momento com a gente?</p>
+                    <a class="hero-btn hero-btn--primary" href="#rsvp">Confirmar presença</a>
                 </div>
             </div>
         </section>
@@ -132,35 +205,45 @@
         <section id="rsvp" class="section section-rsvp">
             <div class="container reveal">
                 <div class="section-heading">
-                    <p class="eyebrow">Ficaremos muito felizes em ter você conosco neste dia tão especial</p>
+                    <p class="eyebrow">Leva menos de 1 minuto</p>
                     <h2>Confirme sua presença</h2>
+                    <p class="section-intro">Sua resposta nos ajuda a preparar cada detalhe com carinho. Se puder,
+                        confirme assim que possível.</p>
+                </div>
+
+                <div class="rsvp-helper" aria-label="Informações rápidas do RSVP">
+                    <span>Rápido</span>
+                    <span>Simples</span>
+                    <span>Importante para a organização</span>
                 </div>
 
                 <form id="form-rsvp" class="rsvp-form" novalidate>
                     <label for="nome">Nome completo</label>
-                    <input type="text" id="nome" name="nome" placeholder="Seu nome e sobrenome" required>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome e sobrenome" autocomplete="name"
+                        enterkeyhint="next" required>
 
                     <label>Nº de acompanhantes <span class="field-hint">(crianças até 6 anos não contam)</span></label>
 
-                    <input type="number" id="acompanhantes" name="acompanhantes" min="0" max="10" value="0" required>
+                    <input type="number" id="acompanhantes" name="acompanhantes" min="0" max="10" value="0"
+                        inputmode="numeric" required>
 
                     <label for="quantidade_criancas">Quantidade de crianças de 0 até 8 anos (teremos algo
                         especial para elas 🥰)</label>
                     <input type="number" id="quantidade_criancas" name="quantidade_criancas" min="0" max="10" value="0"
-                        required>
+                        inputmode="numeric" required>
 
                     <label for="presenca">Irá comparecer?</label>
                     <select id="presenca" name="presenca" required>
-                        <option value="">Selecione</option>
+                        <option value="">Selecione sua resposta</option>
                         <option value="sim">Sim</option>
                         <option value="nao">Não</option>
                     </select>
 
                     <label for="mensagem">Mensagem para os noivos (opcional)</label>
-                    <textarea id="mensagem" name="mensagem" rows="4"
+                    <textarea id="mensagem" name="mensagem" rows="4" enterkeyhint="send"
                         placeholder="Informações adicionais ou recados"></textarea>
 
-                    <button type="submit">Enviar confirmação</button>
+                    <button type="submit">Confirmar presença</button>
                     <p id="rsvp-status" class="rsvp-status" role="status" aria-live="polite"></p>
                 </form>
             </div>
@@ -183,7 +266,8 @@
                         <p class="gift-card-sub">Toque para ampliar</p>
 
                         <div class="pix-qr-wrap">
-                            <img src="assets/images/qr-code.jpeg" alt="QR Code PIX para presente">
+                            <img src="assets/images/qr-code.jpeg" alt="QR Code PIX para presente" loading="lazy"
+                                decoding="async" fetchpriority="low">
                         </div>
 
                         <p class="pix-key-label">Chave PIX</p>
@@ -198,7 +282,8 @@
 
                     <article class="gift-card gift-card--havan" aria-label="Lista de presentes Havan">
                         <div class="gift-logos" aria-label="Logotipos de identificação">
-                            <img class="gift-logo" src="assets/images/havan-logo.png" alt="Logotipo Havan">
+                            <img class="gift-logo" src="assets/images/havan-logo.png" alt="Logotipo Havan"
+                                loading="lazy" decoding="async" fetchpriority="low">
                         </div>
                         <h3>Havan</h3>
                         <p class="gift-card-sub">Para sua comodidade, selecionamos alguns itens na lista oficial da
@@ -279,6 +364,12 @@
             <strong class="pix-toast__title" id="pix-toast-title">Chave PIX copiada!</strong>
             <p class="pix-toast__sub" id="pix-toast-sub">Cole no app do seu banco para concluir.</p>
         </div>
+    </div>
+
+    <div class="mobile-rsvp-bar" aria-label="Atalhos rápidos para convidados">
+        <a class="mobile-rsvp-bar__btn" href="#rsvp">Confirmar presença</a>
+        <a class="mobile-rsvp-bar__link" href="https://maps.google.com/?q=Chacara+Laggus+Campo+Largo+PR" target="_blank"
+            rel="noopener noreferrer">Como chegar</a>
     </div>
 
     <script src="js/main.js" defer></script>

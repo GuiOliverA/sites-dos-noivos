@@ -4,6 +4,8 @@ const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 const anchorLinks = document.querySelectorAll('a[href^="#"]');
 const revealElements = document.querySelectorAll('.reveal');
+const sections = document.querySelectorAll('main section[id]');
+const navItems = document.querySelectorAll('.nav-links a[href^="#"]');
 
 if (menuToggle && nav) {
     menuToggle.addEventListener('click', () => {
@@ -50,6 +52,42 @@ if (navLinks) {
         }
     });
 }
+
+const toggleHeaderState = () => {
+    if (!header) {
+        return;
+    }
+
+    header.classList.toggle('site-header--scrolled', window.scrollY > 12);
+};
+
+toggleHeaderState();
+window.addEventListener('scroll', toggleHeaderState, { passive: true });
+
+const setActiveNavItem = (sectionId) => {
+    navItems.forEach((link) => {
+        const isActive = link.getAttribute('href') === `#${sectionId}`;
+        link.classList.toggle('is-active', isActive);
+    });
+};
+
+const navObserver = new IntersectionObserver(
+    (entries) => {
+        const visibleSection = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
+
+        if (visibleSection) {
+            setActiveNavItem(visibleSection.target.id);
+        }
+    },
+    {
+        threshold: [0.2, 0.4, 0.6],
+        rootMargin: '-35% 0px -45% 0px'
+    }
+);
+
+sections.forEach((section) => navObserver.observe(section));
 
 const observer = new IntersectionObserver(
     (entries) => {
