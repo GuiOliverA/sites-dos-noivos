@@ -9,7 +9,7 @@
 (Ainda não finalizado)
 Site de casamento desenvolvido para o casamento de Guilherme e Taine, marcado para 30 de maio de 2026 na Chácara Laggus, Campo Largo - PR.
 
-[[site-dos-noivos](https://guilherme-e-taine.vercel.app/)]
+[[site-dos-noivos](https://sites-dos-noivos.vercel.app/)]
 
 ## Sobre o projeto
 Single Page Application estática com as seções:
@@ -30,40 +30,20 @@ Camada: Tecnologia Frontend HTML5, CSS3, JavaScript. Banco de dados: Supabase (P
 ## Estrutura
 sites-dos-noivos/
 ├── admin/
-│   └── index.html        # Painel administrativo (acesso restrito)
+│   └── index.html        # Painel administrativo
 ├── assets/
-│   └── images/           # Fotos, favicons e SVGs
+│   └── images/           # Imagens, ícones e fotos
 ├── css/
-│   ├── style.css         # Estilos da página principal
-│   └── admin.css         # Estilos do painel admin
+│   ├── style.css         # Estilos do site principal
+│   └── admin.css         # Arquivo de estilos do admin
 ├── js/
-│   ├── main.js           # Navegação, carousels, PIX
+│   ├── main.js           # Menu, interações gerais e PIX
 │   ├── gallery.js        # Galeria e lightbox
-│   ├── rsvp.js           # Formulário de confirmação
-│   └── countdown.js      # Contador regressivo
+│   ├── countdown.js      # Contagem regressiva
+│   └── rsvp.js           # Envio do formulário RSVP
 ├── index.html            # Página principal
 └── site.webmanifest
 ```
-##Painel Administrativo##
-
-O site conta com uma rota exclusiva /admin, acessível apenas pelos noivos, com autenticação via Supabase Auth (e-mail e senha).
-
-No painel administrativo é possível:
-
-Gerenciar as confirmações de presença (tabela confirmacoes)
-Gerenciar a lista de convidados (tabela convidados)
-
-Validação de convidados:
-
-O sistema de RSVP funciona com base em uma lista pré-definida de convidados:
-
-Os noivos alimentam manualmente a tabela convidados
-Quando um usuário envia o formulário:
--Se estiver na lista → confirmação aceita ✅
--Se não estiver → confirmação recusada ❌
-
-Tolerância a erros:
--O sistema possui uma margem de tolerância para erros de digitação no nome informado pelo convidado, reduzindo problemas comuns no preenchimento do formulário.
 
 ## Segurança
 O repositório é público. A segurança é garantida por:
