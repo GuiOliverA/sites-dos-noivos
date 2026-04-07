@@ -33,7 +33,6 @@ body {
         linear-gradient(180deg, #f7f9fc 0%, #edf1f8 100%);
     line-height: 1.6;
     text-rendering: optimizeLegibility;
-    padding-bottom: 5.6rem;
 }
 
 img {
@@ -255,7 +254,7 @@ h2 {
     min-height: 100svh;
     display: grid;
     align-items: center;
-    padding: calc(var(--header-height) + 2.6rem) 0 3.4rem;
+    padding: calc(var(--header-height) + 2.8rem) 0 3.6rem;
     position: relative;
     overflow: hidden;
     isolation: isolate;
@@ -267,9 +266,9 @@ h2 {
     inset: 0;
     background:
         linear-gradient(180deg,
-            rgba(10, 17, 28, 0.76) 0%,
-            rgba(10, 17, 28, 0.48) 42%,
-            rgba(10, 17, 28, 0.7) 100%),
+            rgba(9, 15, 24, 0.82) 0%,
+            rgba(9, 15, 24, 0.5) 38%,
+            rgba(9, 15, 24, 0.74) 100%),
         url("../assets/images/noivos-teste1.jpg");
     background-size: cover;
     background-position: center 32%;
@@ -284,8 +283,8 @@ h2 {
     width: min(380px, 48vw);
     aspect-ratio: 1;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(201, 168, 76, 0.26), rgba(201, 168, 76, 0));
-    filter: blur(18px);
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.22), rgba(201, 168, 76, 0));
+    filter: blur(20px);
     z-index: 0;
 }
 
@@ -296,9 +295,9 @@ h2 {
     text-align: center;
     display: grid;
     justify-items: center;
-    gap: 1.15rem;
+    gap: 1.3rem;
     max-width: 700px;
-    padding-block: clamp(0.5rem, 2vw, 1.2rem);
+    padding-block: clamp(0.75rem, 2.4vw, 1.4rem);
 }
 
 .hero-kicker {
@@ -341,7 +340,7 @@ h2 {
 }
 
 .hero-date {
-    margin: 0.25rem 0 0.4rem;
+    margin: 0.35rem 0 0.55rem;
 }
 
 .hero-date-badge {
@@ -355,11 +354,12 @@ h2 {
 }
 
 .hero-date-badge strong {
-    font-size: clamp(1.12rem, 2.8vw, 1.3rem);
-    font-weight: 600;
-    letter-spacing: 0.18em;
+    font-size: clamp(1.14rem, 2.9vw, 1.38rem);
+    font-weight: 700;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.96);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .hero-date-badge span {
@@ -367,12 +367,12 @@ h2 {
 }
 
 .hero-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
-    width: min(100%, 560px);
-    margin-top: 0.35rem;
+    width: min(100%, 360px);
+    margin-top: 0.5rem;
+    margin-bottom: 0.7rem;
 }
 
 .hero-note {
@@ -385,31 +385,40 @@ h2 {
     justify-content: center;
     width: 100%;
     min-width: 0;
-    min-height: 52px;
-    padding: 0.95rem 1.35rem;
-    border-radius: 999px;
+    min-height: 46px;
+    padding: 0.8rem 0.95rem;
+    border-radius: 16px;
+    font-size: 0.96rem;
     font-weight: 700;
-    letter-spacing: 0.02em;
-    transition: transform 0.2s ease, filter 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    letter-spacing: 0.01em;
+    transition: transform 0.22s ease, filter 0.22s ease, background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
 .hero-btn:hover,
 .hero-btn:focus-visible {
     transform: translateY(-2px);
-    filter: brightness(1.05);
+    filter: brightness(1.04);
 }
 
 .hero-btn--primary {
-    background: linear-gradient(135deg, #d8b866 0%, #b89138 100%);
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #dcc173 0%, #be9537 100%);
     color: #162238;
-    box-shadow: 0 12px 26px rgba(17, 24, 39, 0.24);
+    box-shadow: 0 12px 28px rgba(8, 14, 24, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.hero-btn--primary:hover,
+.hero-btn--primary:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(8, 14, 24, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .hero-btn--secondary {
-    border: 1px solid rgba(255, 255, 255, 0.34);
-    background: rgba(12, 20, 31, 0.2);
-    color: var(--white);
-    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .hero-countdown-label {
@@ -425,7 +434,7 @@ h2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.8rem;
     width: min(520px, 100%);
-    margin: 0 auto;
+    margin: 0.4rem auto 0;
 }
 
 .countdown-item {
@@ -1335,47 +1344,6 @@ h2 {
     contain-intrinsic-size: 1px 900px;
 }
 
-.mobile-rsvp-bar {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1250;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.65rem;
-    padding: 0.75rem 0.9rem calc(0.75rem + env(safe-area-inset-bottom));
-    background: rgba(247, 249, 252, 0.96);
-    border-top: 1px solid rgba(143, 163, 186, 0.28);
-    box-shadow: 0 -12px 28px rgba(13, 27, 53, 0.12);
-    backdrop-filter: blur(10px);
-}
-
-.mobile-rsvp-bar__btn,
-.mobile-rsvp-bar__link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    border-radius: 12px;
-    padding: 0.75rem 0.95rem;
-    font-size: 0.95rem;
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.mobile-rsvp-bar__btn {
-    background: linear-gradient(135deg, #d4b15a 0%, #b8923c 100%);
-    color: #162238;
-    box-shadow: 0 10px 22px rgba(10, 18, 34, 0.14);
-}
-
-.mobile-rsvp-bar__link {
-    border: 1px solid rgba(74, 111, 165, 0.25);
-    background: var(--white);
-    color: var(--deep-blue);
-}
-
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
@@ -1471,16 +1439,22 @@ h2 {
     }
 
     .hero-actions {
+        display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        width: min(100%, 760px);
-        gap: 0.9rem;
+        width: auto;
+        gap: 0.8rem;
     }
 
     .hero-btn {
         width: auto;
-        min-width: 170px;
+        min-width: 158px;
+        padding-inline: 1rem;
+    }
+
+    .hero-btn--primary {
+        min-width: 210px;
     }
 
     .countdown {
@@ -1576,14 +1550,6 @@ h2 {
 }
 
 @media (min-width: 768px) {
-    body {
-        padding-bottom: 0;
-    }
-
-    .mobile-rsvp-bar {
-        display: none;
-    }
-
     .carousel--gallery .carousel-viewport {
         height: 500px;
         background-color: #F0F2F5;
