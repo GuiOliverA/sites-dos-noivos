@@ -113,21 +113,21 @@ h2 {
 }
 
 .site-header {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(27, 42, 74, 0.92);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    backdrop-filter: none;
+    border-bottom: none;
     transition: background 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
 .site-header--scrolled {
-    background: rgba(21, 33, 56, 0.96);
+    background: #0F1520;
     box-shadow: 0 10px 24px rgba(11, 21, 38, 0.2);
-    border-bottom-color: rgba(255, 255, 255, 0.14);
+    border-bottom-color: transparent;
 }
 
 .navbar {
@@ -265,13 +265,13 @@ h2 {
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(180deg,
-            rgba(9, 15, 24, 0.82) 0%,
-            rgba(9, 15, 24, 0.5) 38%,
-            rgba(9, 15, 24, 0.74) 100%),
-        url("../assets/images/noivos-teste1.jpg");
+        linear-gradient(to top,
+            rgba(10, 12, 16, 0.75) 0%,
+            rgba(10, 12, 16, 0.2) 50%,
+            rgba(255, 200, 100, 0.08) 100%),
+        url("../assets/images/noivos-se-olhando.webp");
     background-size: cover;
-    background-position: center 32%;
+    background-position: center 15%;
     background-attachment: scroll;
     background-repeat: no-repeat;
     transform: scale(1.04);
@@ -308,13 +308,13 @@ h2 {
     border-radius: 999px;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    font-size: clamp(0.72rem, 1.9vw, 0.92rem);
+    font-size: 0.72rem;
     font-weight: 800;
-    color: #fff8e8;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(201, 168, 76, 0.42);
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(4px);
 }
 
 .hero-kicker span {
