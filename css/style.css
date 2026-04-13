@@ -1571,6 +1571,18 @@ h2 {
     }
 }
 
+@media (max-width: 767px) {
+    .hero::before {
+        transform: none;
+    }
+
+    .hero-kicker,
+    .countdown-item,
+    .hero-btn--secondary {
+        backdrop-filter: none;
+    }
+}
+
 @media (min-width: 960px) {
     .carousel--gallery .carousel-viewport {
         height: 600px;
