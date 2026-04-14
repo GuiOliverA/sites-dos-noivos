@@ -1592,3 +1592,24 @@ h2 {
         height: 600px;
     }
 }
+
+/* Legibilidade: textos descritivos com tom mais escuro */
+.section-intro,
+.info-card .location,
+.story-card p,
+.rsvp-form label,
+.rsvp-form input,
+.rsvp-form select,
+.rsvp-form textarea,
+.field-hint,
+.gift-card-sub,
+.gift-card--havan p,
+.pix-help,
+.rsvp-toast__sub,
+.pix-toast__sub {
+    color: #1a1a1a;
+}
+
+.section-intro {
+    opacity: 1;
+}
