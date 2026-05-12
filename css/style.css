@@ -951,6 +951,9 @@ h2 {
 
 .section-gifts {
     position: relative;
+    background: linear-gradient(160deg, #fdfaf3 0%, #f5edd8 100%);
+    border-top: 3px solid;
+    border-image: linear-gradient(90deg, transparent 0%, #C9A84C 30%, #b8923c 70%, transparent 100%) 1;
 }
 
 .gifts-layout {
@@ -1031,20 +1034,21 @@ h2 {
 }
 
 .pix-copy-btn {
-    border: 1px solid rgba(74, 111, 165, 0.5);
-    background: var(--white);
-    color: var(--deep-blue);
+    background: linear-gradient(135deg, #d4b15a 0%, #b8923c 100%);
+    color: #162238;
+    border: 1px solid transparent;
     border-radius: 10px;
     min-height: 42px;
     padding: 0 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
 }
 
 .pix-copy-btn:hover,
 .pix-copy-btn:focus-visible {
-    border-color: var(--gold);
-    color: var(--navy);
+    background: linear-gradient(135deg, #dfc068 0%, #c49e45 100%);
+    color: #0e1a2b;
+    border-color: transparent;
 }
 
 .pix-copy-feedback {
@@ -1177,6 +1181,17 @@ h2 {
 .gift-btn--havan {
     margin-top: 0.15rem;
     min-width: 210px;
+    background: linear-gradient(135deg, #d4b15a 0%, #b8923c 100%);
+    color: #162238;
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(180, 130, 40, 0.25);
+}
+
+.gift-btn--havan:hover,
+.gift-btn--havan:focus-visible {
+    background: linear-gradient(135deg, #dfc068 0%, #c49e45 100%);
+    color: #0e1a2b;
+    border-color: transparent;
 }
 
 .gifts-backdrop {
@@ -1612,4 +1627,78 @@ h2 {
 
 .section-intro {
     opacity: 1;
+}
+
+/* ---- Nudge bar de presentes ---- */
+.gifts-nudge-bar {
+    background: linear-gradient(135deg, #1B2A4A 0%, #243B5E 100%);
+    color: rgba(255, 255, 255, 0.88);
+    text-align: center;
+    padding: 0.9rem 1.25rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.gifts-nudge-bar a {
+    color: #C9A84C;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+}
+
+.gifts-nudge-bar a:hover {
+    opacity: 0.82;
+}
+
+/* ---- Seção presentes: destaque h2 ---- */
+.section-gifts .section-heading h2 {
+    position: relative;
+    display: inline-block;
+}
+
+.section-gifts .section-heading h2::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 72px;
+    height: 3px;
+    background: linear-gradient(90deg, #C9A84C, #b8923c);
+    border-radius: 999px;
+}
+
+/* ---- Botão flutuante de presentes ---- */
+.gift-float-btn {
+    position: fixed;
+    bottom: 1.75rem;
+    right: 1.5rem;
+    z-index: 1100;
+    background: linear-gradient(135deg, #d4b15a 0%, #b8923c 100%);
+    color: #162238;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 999px;
+    padding: 0.8rem 1.3rem;
+    box-shadow: 0 8px 28px rgba(13, 27, 53, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.3s ease, visibility 0.3s ease, box-shadow 0.2s ease;
+}
+
+.gift-float-btn:hover,
+.gift-float-btn:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(13, 27, 53, 0.36);
+    color: #0e1a2b;
+}
+
+.gift-float-btn--hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(1rem);
 }

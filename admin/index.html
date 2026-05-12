@@ -193,6 +193,13 @@
             border-color: var(--white);
         }
 
+        .btn-add {
+            background: var(--gold);
+            color: var(--navy);
+            border-color: var(--gold);
+            font-weight: 600;
+        }
+
         .btn-logout {
             background: transparent;
             color: var(--slate);
@@ -377,6 +384,163 @@
             padding: 2rem !important;
         }
 
+        /* ── AÇÕES ── */
+        .btn-action {
+            padding: 0.28rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-edit {
+            background: transparent;
+            color: var(--steel);
+            border-color: var(--steel);
+        }
+
+        .btn-delete {
+            background: transparent;
+            color: #f09595;
+            border-color: rgba(163, 45, 45, 0.55);
+        }
+
+        .btn-action:hover {
+            opacity: 0.7;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .td-actions {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        /* ── MODAL ── */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 1rem;
+        }
+
+        .modal-backdrop.hidden {
+            display: none;
+        }
+
+        .modal-card {
+            background: var(--navy-mid);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 12px;
+            padding: 2rem 1.75rem;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .modal-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 1.4rem;
+        }
+
+        .modal-field {
+            margin-bottom: 1rem;
+        }
+
+        .modal-field label {
+            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--slate);
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-field input,
+        .modal-field select {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            border: 1px solid rgba(143, 163, 186, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--white);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .modal-field input:focus,
+        .modal-field select:focus {
+            border-color: var(--gold);
+        }
+
+        .modal-field select option {
+            background: var(--navy-mid);
+            color: var(--white);
+        }
+
+        .modal-error {
+            font-size: 0.82rem;
+            color: #f09595;
+            margin-top: 0.4rem;
+            min-height: 1.1rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.65rem;
+            justify-content: flex-end;
+            margin-top: 1.4rem;
+        }
+
+        .btn-modal-save {
+            padding: 0.55rem 1.25rem;
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-modal-save:hover {
+            opacity: 0.85;
+        }
+
+        .btn-modal-save:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-modal-cancel {
+            padding: 0.55rem 1.25rem;
+            background: transparent;
+            color: var(--slate);
+            border: 1px solid rgba(143, 163, 186, 0.35);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-modal-cancel:hover {
+            opacity: 0.75;
+        }
+
         @media (max-width: 640px) {
             .summary-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -393,6 +557,145 @@
 
             .table-panel {
                 padding: 1rem;
+            }
+
+            .table-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            .table-toolbar input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-page {
+                padding: 1.25rem 0.85rem 2rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .admin-eyebrow {
+                font-size: 0.65rem;
+            }
+
+            .admin-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .btn-export,
+            .btn-logout {
+                flex: 1;
+                text-align: center;
+                padding: 0.55rem 0.75rem;
+            }
+
+            .admin-tabs {
+                gap: 0.4rem;
+            }
+
+            .admin-tab-button {
+                font-size: 0.82rem;
+                padding: 0.55rem 0.8rem;
+            }
+
+            .summary-grid {
+                gap: 0.6rem;
+            }
+
+            .summary-card {
+                padding: 0.9rem 0.8rem;
+            }
+
+            .summary-number {
+                font-size: 1.65rem;
+            }
+
+            .table-panel {
+                padding: 0.85rem 0.75rem;
+            }
+
+            /* Card-style table on mobile */
+            .table-wrap {
+                overflow-x: visible;
+            }
+
+            table {
+                min-width: 0;
+                width: 100%;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                display: block;
+                border: 1px solid rgba(143, 163, 186, 0.15);
+                border-radius: 8px;
+                margin-bottom: 0.75rem;
+                padding: 0.75rem 0.9rem;
+                background: rgba(255, 255, 255, 0.03);
+            }
+
+            tbody tr:last-child {
+                border-bottom: 1px solid rgba(143, 163, 186, 0.15);
+                margin-bottom: 0;
+            }
+
+            tbody td {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 0.35rem 0;
+                font-size: 0.85rem;
+                border-bottom: 1px solid rgba(143, 163, 186, 0.08);
+            }
+
+            tbody td:last-child {
+                border-bottom: none;
+            }
+
+            tbody td::before {
+                content: attr(data-label);
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--slate);
+                flex-shrink: 0;
+                width: 42%;
+                padding-right: 0.4rem;
+                padding-top: 0.05rem;
+            }
+
+            tbody td.empty-row {
+                display: block;
+                text-align: center;
+            }
+
+            tbody td.empty-row::before {
+                content: none;
+            }
+
+            tbody td.td-actions::before {
+                content: none;
+            }
+
+            tbody td.td-actions {
+                justify-content: flex-end;
+                padding-top: 0.55rem;
             }
         }
     </style>
@@ -462,6 +765,7 @@
                     <div class="table-toolbar">
                         <label for="search-nome">Buscar por nome</label>
                         <input id="search-nome" type="search" placeholder="Digite o nome..." autocomplete="off">
+                        <button id="btn-add-record" class="btn-export btn-add" type="button">+ Adicionar</button>
                     </div>
                     <p id="status" class="status-text" role="status" aria-live="polite">Carregando confirmações...</p>
                     <div class="table-wrap">
@@ -474,6 +778,7 @@
                                     <th>Presença</th>
                                     <th>Mensagem</th>
                                     <th>Data</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="confirmacoes-body"></tbody>
@@ -482,6 +787,42 @@
                 </section>
             </section>
         </main>
+    </div>
+
+    <!-- MODAL EDITAR / ADICIONAR -->
+    <div id="edit-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true"
+        aria-labelledby="modal-title-text">
+        <div class="modal-card">
+            <h2 class="modal-title" id="modal-title-text">Editar confirmação</h2>
+            <div class="modal-field">
+                <label for="modal-nome">Nome</label>
+                <input id="modal-nome" type="text" autocomplete="off" maxlength="120">
+            </div>
+            <div class="modal-field">
+                <label for="modal-acompanhantes">Acompanhantes</label>
+                <input id="modal-acompanhantes" type="number" min="0" max="30">
+            </div>
+            <div class="modal-field">
+                <label for="modal-criancas">Quantidade de crianças</label>
+                <input id="modal-criancas" type="number" min="0" max="30">
+            </div>
+            <div class="modal-field">
+                <label for="modal-presenca">Presença</label>
+                <select id="modal-presenca">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+            <div class="modal-field">
+                <label for="modal-mensagem">Mensagem (opcional)</label>
+                <input id="modal-mensagem" type="text" autocomplete="off" maxlength="300">
+            </div>
+            <p id="modal-error" class="modal-error"></p>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="btn-modal-cancel" type="button">Cancelar</button>
+                <button id="modal-save" class="btn-modal-save" type="button">Salvar</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -643,12 +984,14 @@
             document.getElementById('saldo-vagas').textContent = 150 - pessoas;
         };
 
+        const COLUMN_LABELS = ['Nome', 'Acompanhantes', 'Crianças', 'Presença', 'Mensagem', 'Data', 'Ações'];
+
         const renderTable = (records) => {
             const tbody = document.getElementById('confirmacoes-body');
             tbody.innerHTML = '';
 
             if (!records.length) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-row">Nenhuma confirmação encontrada.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-row">Nenhuma confirmação encontrada.</td></tr>';
                 return;
             }
 
@@ -662,11 +1005,34 @@
                     presenceLabel(r.presenca),
                     r.mensagem || '-',
                     formatDate(r.criado_em)
-                ].forEach((val) => {
+                ].forEach((val, i) => {
                     const td = document.createElement('td');
                     td.textContent = val;
+                    td.dataset.label = COLUMN_LABELS[i];
                     tr.appendChild(td);
                 });
+
+                // coluna ações
+                const tdActions = document.createElement('td');
+                tdActions.className = 'td-actions';
+                tdActions.dataset.label = 'Ações';
+
+                const btnEdit = document.createElement('button');
+                btnEdit.type = 'button';
+                btnEdit.className = 'btn-action btn-edit';
+                btnEdit.textContent = 'Editar';
+                btnEdit.addEventListener('click', () => openEditModal(r));
+
+                const btnDel = document.createElement('button');
+                btnDel.type = 'button';
+                btnDel.className = 'btn-action btn-delete';
+                btnDel.textContent = 'Excluir';
+                btnDel.addEventListener('click', () => deleteRecord(r.id));
+
+                tdActions.appendChild(btnEdit);
+                tdActions.appendChild(btnDel);
+                tr.appendChild(tdActions);
+
                 frag.appendChild(tr);
             });
             tbody.appendChild(frag);
@@ -752,6 +1118,142 @@
         tabButtons.forEach((button) => {
             button.addEventListener('click', () => switchTab(button.dataset.tabTarget));
         });
+
+        // ── CRUD ──
+        const buildHeaders = (extra = {}) => ({
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+            Prefer: 'return=minimal',
+            ...extra
+        });
+
+        let editingId = null;
+
+        const openModal = ({ title, saveLabel, nome = '', acompanhantes = 0, criancas = 0, presenca = 'sim', mensagem = '', id = null }) => {
+            editingId = id;
+            document.getElementById('modal-title-text').textContent = title;
+            document.getElementById('modal-save').textContent = saveLabel;
+            document.getElementById('modal-nome').value = nome;
+            document.getElementById('modal-acompanhantes').value = Math.max(0, Number(acompanhantes) || 0);
+            document.getElementById('modal-criancas').value = Math.max(0, Number(criancas) || 0);
+            document.getElementById('modal-presenca').value = presenca;
+            document.getElementById('modal-mensagem').value = mensagem;
+            document.getElementById('modal-error').textContent = '';
+            document.getElementById('edit-modal').classList.remove('hidden');
+            document.getElementById('modal-nome').focus();
+        };
+
+        const openEditModal = (record) => openModal({
+            title: 'Editar confirmação',
+            saveLabel: 'Salvar',
+            nome: record.nome || '',
+            acompanhantes: record.acompanhantes,
+            criancas: record.quantidade_criancas,
+            presenca: isDeclined(record.presenca) ? 'nao' : 'sim',
+            mensagem: record.mensagem || '',
+            id: record.id
+        });
+
+        const openAddModal = () => openModal({
+            title: 'Adicionar confirmação',
+            saveLabel: 'Adicionar',
+        });
+
+        const closeModal = () => {
+            editingId = null;
+            document.getElementById('edit-modal').classList.add('hidden');
+        };
+
+        const saveEdit = async () => {
+            const saveBtn = document.getElementById('modal-save');
+            const modalError = document.getElementById('modal-error');
+            const nome = document.getElementById('modal-nome').value.trim();
+
+            if (!nome) { modalError.textContent = 'O nome não pode ser vazio.'; return; }
+
+            const acompanhantes = Math.max(0, parseInt(document.getElementById('modal-acompanhantes').value, 10) || 0);
+            const quantidade_criancas = Math.max(0, parseInt(document.getElementById('modal-criancas').value, 10) || 0);
+            const presenca = document.getElementById('modal-presenca').value;
+            const mensagem = document.getElementById('modal-mensagem').value.trim() || null;
+
+            const originalLabel = saveBtn.textContent;
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Salvando...';
+            modalError.textContent = '';
+
+            const isCreating = editingId === null;
+
+            try {
+                if (isCreating) {
+                    const payload = { nome, acompanhantes, quantidade_criancas, presenca, mensagem };
+                    const res = await fetch(
+                        `${SUPABASE_URL}/rest/v1/${TABLE_NAME}`,
+                        {
+                            method: 'POST',
+                            headers: { ...buildHeaders(), Prefer: 'return=representation' },
+                            body: JSON.stringify(payload)
+                        }
+                    );
+                    if (res.status === 401) { handleUnauthorized(); closeModal(); return; }
+                    if (!res.ok) throw new Error(await res.text());
+                    const created = await res.json();
+                    const newRecord = Array.isArray(created) ? created[0] : created;
+                    if (newRecord) allRecords.unshift(newRecord);
+                    closeModal();
+                    applyFilter();
+                    setStatus('Confirmação adicionada com sucesso.', 'ok');
+                } else {
+                    const payload = { nome, acompanhantes, quantidade_criancas, presenca, mensagem };
+                    const res = await fetch(
+                        `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${editingId}`,
+                        { method: 'PATCH', headers: buildHeaders(), body: JSON.stringify(payload) }
+                    );
+                    if (res.status === 401) { handleUnauthorized(); closeModal(); return; }
+                    if (!res.ok) throw new Error(await res.text());
+                    const idx = allRecords.findIndex((r) => r.id === editingId);
+                    if (idx !== -1) Object.assign(allRecords[idx], payload);
+                    closeModal();
+                    applyFilter();
+                    setStatus('Registro atualizado com sucesso.', 'ok');
+                }
+            } catch {
+                modalError.textContent = 'Erro ao salvar. Tente novamente.';
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = originalLabel;
+            }
+        };
+
+        const deleteRecord = async (id) => {
+            if (!confirm('Tem certeza que deseja excluir esta confirmação? Esta ação não pode ser desfeita.')) return;
+
+            try {
+                const res = await fetch(
+                    `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${id}`,
+                    { method: 'DELETE', headers: buildHeaders() }
+                );
+                if (res.status === 401) { handleUnauthorized(); return; }
+                if (!res.ok) throw new Error(await res.text());
+
+                allRecords = allRecords.filter((r) => r.id !== id);
+                applyFilter();
+                setStatus('Registro excluído com sucesso.', 'ok');
+            } catch {
+                setStatus('Erro ao excluir. Tente novamente.', 'error');
+            }
+        };
+
+        document.getElementById('modal-cancel').addEventListener('click', closeModal);
+        document.getElementById('modal-save').addEventListener('click', saveEdit);
+        document.getElementById('edit-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+        document.getElementById('modal-nome').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') saveEdit();
+        });
+        document.getElementById('btn-add-record').addEventListener('click', openAddModal);
 
         document.getElementById('search-nome').addEventListener('input', applyFilter);
         document.getElementById('export-csv').addEventListener('click', exportCsv);

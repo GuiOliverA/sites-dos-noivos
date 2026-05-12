@@ -208,3 +208,21 @@ const initGiftPixInteraction = () => {
 };
 
 initGiftPixInteraction();
+
+// Botão flutuante de presentes: aparece após rolar a hero, some quando está na seção presentes
+const giftFloatBtn = document.querySelector('#gift-float-btn');
+if (giftFloatBtn) {
+    const heroSection = document.querySelector('#hero');
+    const presentesSection = document.querySelector('#presentes');
+
+    const updateGiftFloat = () => {
+        if (!heroSection || !presentesSection) return;
+        const heroPast = heroSection.getBoundingClientRect().bottom < 0;
+        const presentesRect = presentesSection.getBoundingClientRect();
+        const inPresentes = presentesRect.top < window.innerHeight * 0.6 && presentesRect.bottom > 0;
+        giftFloatBtn.classList.toggle('gift-float-btn--hidden', !heroPast || inPresentes);
+    };
+
+    window.addEventListener('scroll', updateGiftFloat, { passive: true });
+    updateGiftFloat();
+}

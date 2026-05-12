@@ -39,8 +39,8 @@
                 <li><a href="#o-dia">Local</a></li>
                 <li><a href="#historia">História</a></li>
                 <li><a href="#galeria">Fotos</a></li>
-                <li><a href="#presentes">Presentes</a></li>
-                <li><a href="#rsvp" class="nav-rsvp">Confirmar presença</a></li>
+                <li><a href="#presentes" class="nav-rsvp">Presentes</a></li>
+                <li><a href="#rsvp">Confirmar presença</a></li>
             </ul>
         </nav>
     </header>
@@ -56,11 +56,11 @@
                 </p>
 
                 <div class="hero-actions" aria-label="Ações principais do convite">
-                    <a class="hero-btn hero-btn--primary" href="#rsvp">Confirmar presença</a>
+                    <a class="hero-btn hero-btn--primary" href="#presentes">Ver lista de presentes</a>
                     <a class="hero-btn hero-btn--secondary"
                         href="https://maps.google.com/?q=Chacara+Laggus+Campo+Largo+PR" target="_blank"
                         rel="noopener noreferrer">Como chegar</a>
-                    <a class="hero-btn hero-btn--secondary" href="#presentes">Lista de presentes</a>
+                    <a class="hero-btn hero-btn--secondary" href="#rsvp">Confirmar presença</a>
                 </div>
 
                 <div class="countdown" aria-label="Contagem regressiva para o casamento">
@@ -83,6 +83,11 @@
                 </div>
             </div>
         </section>
+
+        <div class="gifts-nudge-bar" id="gifts-nudge-bar">
+            <p>✦&nbsp; A maioria já confirmou presença &mdash; que tal escolher um mimo para os noivos?&nbsp;&nbsp;<a
+                    href="#presentes">Ver presentes <span aria-hidden="true">→</span></a></p>
+        </div>
 
         <section id="o-dia" class="section section-day">
             <div class="container reveal">
@@ -192,9 +197,62 @@
                 </div>
 
                 <div class="gallery-cta reveal">
-                    <p>Já sabe que vai viver esse momento com a gente?</p>
-                    <a class="hero-btn hero-btn--primary" href="#rsvp">Confirmar presença</a>
+                    <p>Quer celebrar com um presente especial para os noivos?</p>
+                    <a class="hero-btn hero-btn--primary" href="#presentes">Ver lista de presentes</a>
                 </div>
+            </div>
+        </section>
+
+        <section id="presentes" class="section section-gifts">
+            <div class="container reveal">
+                <div class="section-heading">
+                    <p class="eyebrow">Sua contribuição transforma nossa casa em lar</p>
+                    <h2>Presenteie os noivos</h2>
+                    <p class="section-intro">Sua presença é o nosso maior presente. Se quiser nos agradar com um mimo,
+                        nossa sugestão é uma contribuição via PIX ou pela lista de presentes da Havan.</p>
+                </div>
+
+                <div class="gifts-layout" id="gifts-layout">
+                    <article class="gift-card gift-card--pix" id="pix-card" role="button" tabindex="0"
+                        aria-expanded="false" aria-controls="pix-copy-feedback"
+                        aria-label="Expandir opção de presente via PIX">
+                        <h3>Presente via PIX</h3>
+                        <p class="gift-card-sub">Toque para ampliar</p>
+
+                        <div class="pix-qr-wrap">
+                            <img src="assets/images/qr-code.webp" alt="QR Code PIX para presente" loading="lazy"
+                                decoding="async" fetchpriority="low">
+                        </div>
+
+                        <p class="pix-key-label">Chave PIX</p>
+                        <div class="pix-key-row">
+                            <span class="pix-key-text" id="pix-key-text">a7e266ea-29f8-4b39-b15d-ff66ece9ce8e</span>
+                            <button class="pix-copy-btn" id="copy-pix-key" type="button">Copiar chave</button>
+                        </div>
+                        <p class="pix-copy-feedback" id="pix-copy-feedback" aria-live="polite"></p>
+                        <p class="pix-help">Abra o seu banco, copie a chave e cole (ou escaneie o QR code) e confirme o
+                            nome dos noivos para concluir.</p>
+                    </article>
+
+                    <article class="gift-card gift-card--havan" aria-label="Lista de presentes Havan">
+                        <div class="gift-logos" aria-label="Logotipos de identificação">
+                            <img class="gift-logo" src="assets/images/havan-logo.png" alt="Logotipo Havan"
+                                loading="lazy" decoding="async" fetchpriority="low">
+                        </div>
+                        <h3>Havan</h3>
+                        <p class="gift-card-sub">Para sua comodidade, selecionamos alguns itens na lista oficial da
+                            Havan.</p>
+                        <p><strong>Endereço para entrega:</strong><br>Rua Sinfronio Mesa Neto, 788 - Tatuquara,
+                            Curitiba - PR, 81470-045.</p>
+                        <a class="gift-btn gift-btn--havan"
+                            href="https://lista.havan.com.br/Convidado/ItensListaPresente/923780" target="_blank"
+                            rel="noopener noreferrer">Acessar lista</a>
+                    </article>
+                </div>
+
+                <button class="pix-close" id="pix-close" type="button" aria-label="Fechar destaque do PIX">Fechar
+                    PIX</button>
+                <div class="gifts-backdrop" id="gifts-backdrop" aria-hidden="true"></div>
             </div>
         </section>
 
@@ -243,59 +301,6 @@
                     <button type="submit">Confirmar presença</button>
                     <p id="rsvp-status" class="rsvp-status" role="status" aria-live="polite"></p>
                 </form>
-            </div>
-        </section>
-
-        <section id="presentes" class="section section-gifts">
-            <div class="container reveal">
-                <div class="section-heading">
-                    <p class="eyebrow">Sua presença é o nosso maior presente, mas se quiser nos agraciar com um mimo,
-                        nossa sugestão é uma contribuição via PIX ou pela lista de presentes da Havan.
-                    </p>
-                    <h2>Presentes</h2>
-                </div>
-
-                <div class="gifts-layout" id="gifts-layout">
-                    <article class="gift-card gift-card--pix" id="pix-card" role="button" tabindex="0"
-                        aria-expanded="false" aria-controls="pix-copy-feedback"
-                        aria-label="Expandir opção de presente via PIX">
-                        <h3>Presente via PIX</h3>
-                        <p class="gift-card-sub">Toque para ampliar</p>
-
-                        <div class="pix-qr-wrap">
-                            <img src="assets/images/qr-code.webp" alt="QR Code PIX para presente" loading="lazy"
-                                decoding="async" fetchpriority="low">
-                        </div>
-
-                        <p class="pix-key-label">Chave PIX</p>
-                        <div class="pix-key-row">
-                            <span class="pix-key-text" id="pix-key-text">a7e266ea-29f8-4b39-b15d-ff66ece9ce8e</span>
-                            <button class="pix-copy-btn" id="copy-pix-key" type="button">Copiar chave</button>
-                        </div>
-                        <p class="pix-copy-feedback" id="pix-copy-feedback" aria-live="polite"></p>
-                        <p class="pix-help">Abra o seu banco, copie a chave e cole (ou escaneie o QR code) e confirme o
-                            nome dos noivos para concluir.</p>
-                    </article>
-
-                    <article class="gift-card gift-card--havan" aria-label="Lista de presentes Havan">
-                        <div class="gift-logos" aria-label="Logotipos de identificação">
-                            <img class="gift-logo" src="assets/images/havan-logo.png" alt="Logotipo Havan"
-                                loading="lazy" decoding="async" fetchpriority="low">
-                        </div>
-                        <h3>Havan</h3>
-                        <p class="gift-card-sub">Para sua comodidade, selecionamos alguns itens na lista oficial da
-                            Havan.</p>
-                        <p><strong>Endereço para entrega:</strong><br>Rua Sinfronio Mesa Neto, 788 - Tatuquara,
-                            Curitiba - PR, 81470-045.</p>
-                        <a class="gift-btn gift-btn--havan"
-                            href="https://lista.havan.com.br/Convidado/ItensListaPresente/923780" target="_blank"
-                            rel="noopener noreferrer">Acessar lista</a>
-                    </article>
-                </div>
-
-                <button class="pix-close" id="pix-close" type="button" aria-label="Fechar destaque do PIX">Fechar
-                    PIX</button>
-                <div class="gifts-backdrop" id="gifts-backdrop" aria-hidden="true"></div>
             </div>
         </section>
     </main>
@@ -369,6 +374,11 @@
     <script src="js/countdown.js" defer></script>
     <script src="js/gallery.js" defer></script>
     <script src="js/rsvp.js" defer></script>
+
+    <a href="#presentes" class="gift-float-btn gift-float-btn--hidden" id="gift-float-btn"
+        aria-label="Ver lista de presentes dos noivos">
+        <span aria-hidden="true">🎁</span> Presentear
+    </a>
 </body>
 
 </html>
