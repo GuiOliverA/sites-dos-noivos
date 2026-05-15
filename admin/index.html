@@ -817,6 +817,10 @@
                 <label for="modal-mensagem">Mensagem (opcional)</label>
                 <input id="modal-mensagem" type="text" autocomplete="off" maxlength="300">
             </div>
+            <div class="modal-field" id="modal-field-criado-em">
+                <label for="modal-criado-em">Data de confirmação</label>
+                <input id="modal-criado-em" type="datetime-local">
+            </div>
             <p id="modal-error" class="modal-error"></p>
             <div class="modal-actions">
                 <button id="modal-cancel" class="btn-modal-cancel" type="button">Cancelar</button>
@@ -1130,7 +1134,15 @@
 
         let editingId = null;
 
-        const openModal = ({ title, saveLabel, nome = '', acompanhantes = 0, criancas = 0, presenca = 'sim', mensagem = '', id = null }) => {
+        const toDatetimeLocal = (iso) => {
+            if (!iso) return '';
+            const d = new Date(iso);
+            if (isNaN(d)) return '';
+            const pad = (n) => String(n).padStart(2, '0');
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        };
+
+        const openModal = ({ title, saveLabel, nome = '', acompanhantes = 0, criancas = 0, presenca = 'sim', mensagem = '', criadoEm = '', id = null }) => {
             editingId = id;
             document.getElementById('modal-title-text').textContent = title;
             document.getElementById('modal-save').textContent = saveLabel;
@@ -1139,6 +1151,8 @@
             document.getElementById('modal-criancas').value = Math.max(0, Number(criancas) || 0);
             document.getElementById('modal-presenca').value = presenca;
             document.getElementById('modal-mensagem').value = mensagem;
+            document.getElementById('modal-criado-em').value = criadoEm ? toDatetimeLocal(criadoEm) : '';
+            document.getElementById('modal-field-criado-em').style.display = id !== null ? '' : 'none';
             document.getElementById('modal-error').textContent = '';
             document.getElementById('edit-modal').classList.remove('hidden');
             document.getElementById('modal-nome').focus();
@@ -1152,6 +1166,7 @@
             criancas: record.quantidade_criancas,
             presenca: isDeclined(record.presenca) ? 'nao' : 'sim',
             mensagem: record.mensagem || '',
+            criadoEm: record.criado_em || '',
             id: record.id
         });
 
@@ -1204,15 +1219,29 @@
                     applyFilter();
                     setStatus('Confirmação adicionada com sucesso.', 'ok');
                 } else {
-                    const payload = { nome, acompanhantes, quantidade_criancas, presenca, mensagem };
+                    const criadoEmVal = document.getElementById('modal-criado-em').value;
+                    const payload = {
+                        nome, acompanhantes, quantidade_criancas, presenca, mensagem,
+                        ...(criadoEmVal ? { criado_em: new Date(criadoEmVal).toISOString() } : {})
+                    };
                     const res = await fetch(
                         `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${editingId}`,
-                        { method: 'PATCH', headers: buildHeaders(), body: JSON.stringify(payload) }
+                        {
+                            method: 'PATCH',
+                            headers: { ...buildHeaders(), Prefer: 'return=representation' },
+                            body: JSON.stringify(payload)
+                        }
                     );
                     if (res.status === 401) { handleUnauthorized(); closeModal(); return; }
                     if (!res.ok) throw new Error(await res.text());
+                    const updated = await res.json();
+                    if (!Array.isArray(updated) || updated.length === 0) {
+                        modalError.textContent = 'Sem permissão para alterar este registro. Verifique as políticas RLS no Supabase (UPDATE policy para a tabela confirmacoes).';
+                        return;
+                    }
+                    const updatedRecord = updated[0];
                     const idx = allRecords.findIndex((r) => r.id === editingId);
-                    if (idx !== -1) Object.assign(allRecords[idx], payload);
+                    if (idx !== -1) allRecords[idx] = { ...allRecords[idx], ...updatedRecord };
                     closeModal();
                     applyFilter();
                     setStatus('Registro atualizado com sucesso.', 'ok');
